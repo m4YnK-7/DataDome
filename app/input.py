@@ -6,8 +6,9 @@ from column import cat_c
 from ydata_profiling import ProfileReport
 
 app = Flask(__name__)
-UPLOAD_FOLDER = "uploads"
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+UPLOAD_FOLDER = os.path.join(os.getcwd(),"app","uploads")
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)   # Save files in the current directory
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
   
 @app.route("/")
 def index():
@@ -23,7 +24,7 @@ def upload_file():
     if file.filename == "":
         return "No selected file", 400
 
-    file_path = os.path.join(UPLOAD_FOLDER, file.filename)
+    file_path = os.path.join(app.config["UPLOAD_FOLDER"],"user_data.csv")
     file.save(file_path)
 
     try:
@@ -37,7 +38,7 @@ def upload_file():
 @app.route("/columns")
 def columns():
     # Load a sample dataframe (replace this with your actual data)
-    df = pd.read_csv("data\\train.csv")  # Replace with actual file
+    df = pd.read_csv("app\\uploads\\user_data.csv")  # Replace with actual file
 
     # Call your function to categorize columns
     categorized = cat_c(df)
@@ -52,6 +53,7 @@ def columns():
 @app.route("/next")
 def next():
     return render_template("next.html")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
