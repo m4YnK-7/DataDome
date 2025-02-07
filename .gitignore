@@ -1,0 +1,6 @@
+*.exe
+*tempCodeRunnerFile.*
+*.vscode/
+*__pycache__
+*.png
+*.csv

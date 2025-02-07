@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDA & Predictions</title>
+</head>
+<body>
+    <h2>Exploratory Data Analysis (EDA)</h2>
+    
+    <h3>First 5 Rows</h3>
+    {{ eda_info['head'] | safe }}
+
+    <h3>Summary Statistics</h3>
+    {{ eda_info['summary'] | safe }}
+
+    <h3>Missing Values</h3>
+    {{ eda_info['missing_values'] | safe }}
+
+    <br>
+    <h2>Download Predictions</h2>
+    <a href="/download"><button>Download Predictions CSV</button></a>
+</body>
+</html>
