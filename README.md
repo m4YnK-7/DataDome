@@ -1,10 +1,7 @@
-# DataDome
-AI-Data Quality Enhancer : Yantra Central Hack Submission
-
-# AI Data Quality Enhancer
+# DataDome: AI Data Quality Enhancer
 
 ## 🚀 Overview  
-**AI Data Quality Enhancer** is a powerful tool designed to clean, preprocess, and enhance datasets using AI-driven techniques. It ensures improved data consistency, accuracy, and usability for downstream machine learning models and analytical applications.
+Data Dome is a powerful tool designed to clean, preprocess, and enhance datasets using AI-driven techniques. It ensures improved data consistency, accuracy, and usability for downstream machine learning models and analytical applications.
 
 ## ✨ Features  
 - **Automated Data Cleaning**: Detects and removes duplicates, missing values, and inconsistencies.
