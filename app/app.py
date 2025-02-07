@@ -12,9 +12,9 @@ test_path = None
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("next.html")
 
-@app.route("/upload", methods=["POST"])
+@app.route("/modelupload", methods=["POST"])
 def upload_file():
     global train_path, test_path
 
