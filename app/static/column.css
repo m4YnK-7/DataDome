@@ -1,0 +1,92 @@
+body{
+    background-color: #000;
+    font-family: Arial, sans-serif;
+    font-size: larger;
+}
+
+p{
+    color: #fff;
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+/* Center the table */
+.table-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+/* Styling for the table */
+table {
+    width: 60%;
+    border-collapse: collapse;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Styling for table headers */
+th {
+    top: 0;
+    background-color: #76b900;
+    color: white;
+    padding: 30px;
+    font-size: larger;
+}
+
+/* Styling for table cells */
+td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.numeric{
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+}
+/* Input fields inside the table */
+input {
+    width: 50%;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    text-align: center;
+    border: 1px solid #ccc;
+    font-size: medium;
+}
+
+button {
+    background-color: #76B900;
+    color: #fff;
+    padding: 20px;
+    width: 100%;
+    max-width: 450px;
+    border-radius: 15px;
+    font-size: 25px;
+    margin: 10px 0;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #5a8c00;
+}
+
+.continue{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    table {
+        width: 90%;
+    }
+}
