@@ -3,9 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ML Model Selection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .hidden {
+            display: none;
+        }
+        .model-btn {
+            margin: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .model-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <h1>adsjkf;</h1>
+
+
+    <h2>Upload Training and Test CSV Files</h2>
+    <form id="model-form">
+        <label>Training Data (train.csv):</label>
+        <input type="file" id="train_file" required><br><br>
+
+        <label>Test Data (test.csv):</label>
+        <input type="file" id="test_file" required><br><br>
+
+        <button type="submit">Upload</button>
+    </form>
+
+    <div id="model-selection" class="hidden">
+        <h3>Select an ML Model</h3>
+        <button class="model-btn" onclick="selectModel('linear_regression')">Linear Regression</button>
+        <button class="model-btn" onclick="selectModel('decision_tree')">Decision Tree</button>
+        <button class="model-btn" onclick="selectModel('random_forest')">Random Forest</button>
+        <button class="model-btn" onclick="selectModel('svm')">SVM</button>
+        <button class="model-btn" onclick="selectModel('knn')">KNN</button>
+        <button class="model-btn" onclick="selectModel('logistic_regression')">Logistic Regression</button>
+        <button class="model-btn" onclick="selectModel('gradient_boosting')">Gradient Boosting</button>
+        <button class="model-btn" onclick="selectModel('xgboost')">XGBoost</button>
+    </div>
+
+    <div id="result"></div>
+
+    <script>
+        // Dataset Profiling Upload
+        document.getElementById("profile-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let formData = new FormData();
+            formData.append("file", document.getElementById("profile_file").files[0]);
+
+            fetch("/upload", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                let url = URL.createObjectURL(blob);
+                window.open(url, "_blank"); // Open the generated profile report
+                document.getElementById("profile-status").textContent = "Profile report generated!";
+            })
+            .catch(error => console.error("Error:", error));
+        });
+
+        // Train/Test File Upload
+        document.getElementById("model-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let formData = new FormData();
+            formData.append("train_file", document.getElementById("train_file").files[0]);
+            formData.append("test_file", document.getElementById("test_file").files[0]);
+
+            fetch("/modelupload", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    document.getElementById("model-form").classList.add("hidden");
+                    document.getElementById("model-selection").classList.remove("hidden");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        });
+
+        // Model Selection & Run
+        function selectModel(model) {
+            fetch("/run_model", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ model_name: model })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").innerHTML = `<h3>Results</h3><pre>${JSON.stringify(data, null, 2)}</pre>`;
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+
 </body>
 </html>
