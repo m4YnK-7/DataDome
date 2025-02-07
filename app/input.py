@@ -17,22 +17,29 @@ def index():
 @app.route("/upload", methods=["POST"])
 def upload_file():
     if "file" not in request.files:
-        return "No file part"
+        return "No file part", 400
 
     file = request.files["file"]
 
     if file.filename == "":
-        return "No selected file"
+        return "No selected file", 400
 
-    # Generate report
-    profile_report(file)
+    file_path = os.path.join(UPLOAD_FOLDER, file.filename)
+    file.save(file_path)
 
-    return send_file("..//profile_report.html", as_attachment=False)  
+    try:
+        # Generate report
+        report_path = profile_report(file_path)
+        return send_file("..//profile_report.html", as_attachment=False)
+    except Exception as e:
+        return str(e), 400
+
 
 @app.route("/columns")
 def columns():
     # Load a sample dataframe (replace this with your actual data)
-    df = pd.read_csv("uploads/train.csv")  # Replace with actual file
+    df = pd.read_csv("data\\train.csv")  # Replace with actual file
+
     # Call your function to categorize columns
     categorized = cat_c(df)
     print(categorized)
