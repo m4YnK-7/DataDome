@@ -178,7 +178,7 @@
             ]
         },
         "processed_dataset": {
-            "total_rows": 1426,
+            "total_rows": 1431,
             "total_columns": 81
         },
         "duplicates": {
@@ -214,408 +214,408 @@
         "column_details": {
             "Id": {
                 "dtype": "int64",
-                "non_null_count": 1426,
-                "unique_values": 1426
+                "non_null_count": 1431,
+                "unique_values": 1431
             },
             "MSSubClass": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 15
             },
             "MSZoning": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 5
             },
             "LotFrontage": {
                 "dtype": "float64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 110
             },
             "LotArea": {
                 "dtype": "int64",
-                "non_null_count": 1426,
-                "unique_values": 1050
+                "non_null_count": 1431,
+                "unique_values": 1053
             },
             "Street": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 2
             },
             "Alley": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 3
             },
             "LotShape": {
                 "dtype": "float64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 13
             },
             "LandContour": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 4
             },
             "Utilities": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 2
             },
             "LotConfig": {
                 "dtype": "float64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 7
             },
             "LandSlope": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 3
             },
             "Neighborhood": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 25
             },
             "Condition1": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 9
             },
             "Condition2": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 7
             },
             "BldgType": {
                 "dtype": "float64",
-                "non_null_count": 1426,
-                "unique_values": 7
+                "non_null_count": 1431,
+                "unique_values": 6
             },
             "HouseStyle": {
                 "dtype": "float64",
-                "non_null_count": 1426,
-                "unique_values": 8
+                "non_null_count": 1431,
+                "unique_values": 10
             },
             "OverallQual": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 10
             },
             "OverallCond": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 9
             },
             "YearBuilt": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 112
             },
             "YearRemodAdd": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 61
             },
             "RoofStyle": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 6
             },
             "RoofMatl": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 8
             },
             "Exterior1st": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 15
             },
             "Exterior2nd": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 16
             },
             "MasVnrType": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 4
             },
             "MasVnrArea": {
                 "dtype": "float64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 326
             },
             "ExterQual": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 4
             },
             "ExterCond": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 5
             },
             "Foundation": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 6
             },
             "BsmtQual": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 5
             },
             "BsmtCond": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 5
             },
             "BsmtExposure": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 5
             },
             "BsmtFinType1": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 7
             },
             "BsmtFinSF1": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 626
             },
             "BsmtFinType2": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 7
             },
             "BsmtFinSF2": {
                 "dtype": "int64",
-                "non_null_count": 1426,
-                "unique_values": 140
+                "non_null_count": 1431,
+                "unique_values": 141
             },
             "BsmtUnfSF": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 774
             },
             "TotalBsmtSF": {
                 "dtype": "int64",
-                "non_null_count": 1426,
-                "unique_values": 705
+                "non_null_count": 1431,
+                "unique_values": 707
             },
             "Heating": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 6
             },
             "HeatingQC": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 5
             },
             "CentralAir": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 2
             },
             "Electrical": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 6
             },
             "1stFlrSF": {
                 "dtype": "int64",
-                "non_null_count": 1426,
-                "unique_values": 739
+                "non_null_count": 1431,
+                "unique_values": 744
             },
             "2ndFlrSF": {
                 "dtype": "int64",
-                "non_null_count": 1426,
-                "unique_values": 404
+                "non_null_count": 1431,
+                "unique_values": 407
             },
             "LowQualFinSF": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 24
             },
             "GrLivArea": {
                 "dtype": "int64",
-                "non_null_count": 1426,
-                "unique_values": 847
+                "non_null_count": 1431,
+                "unique_values": 849
             },
             "BsmtFullBath": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 4
             },
             "BsmtHalfBath": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 3
             },
             "FullBath": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 4
             },
             "HalfBath": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 3
             },
             "BedroomAbvGr": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 8
             },
             "KitchenAbvGr": {
                 "dtype": "int64",
-                "non_null_count": 1426,
-                "unique_values": 4
+                "non_null_count": 1431,
+                "unique_values": 3
             },
             "KitchenQual": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 4
             },
             "TotRmsAbvGrd": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 12
             },
             "Functional": {
                 "dtype": "float64",
-                "non_null_count": 1426,
-                "unique_values": 9
+                "non_null_count": 1431,
+                "unique_values": 8
             },
             "Fireplaces": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 4
             },
             "FireplaceQu": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 6
             },
             "GarageType": {
                 "dtype": "float64",
-                "non_null_count": 1426,
-                "unique_values": 1
+                "non_null_count": 1431,
+                "unique_values": 2
             },
             "GarageYrBlt": {
                 "dtype": "float64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 97
             },
             "GarageFinish": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 4
             },
             "GarageCars": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 5
             },
             "GarageArea": {
                 "dtype": "int64",
-                "non_null_count": 1426,
-                "unique_values": 434
+                "non_null_count": 1431,
+                "unique_values": 437
             },
             "GarageQual": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 6
             },
             "GarageCond": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 6
             },
             "PavedDrive": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 3
             },
             "WoodDeckSF": {
                 "dtype": "int64",
-                "non_null_count": 1426,
-                "unique_values": 268
+                "non_null_count": 1431,
+                "unique_values": 269
             },
             "OpenPorchSF": {
                 "dtype": "int64",
-                "non_null_count": 1426,
-                "unique_values": 201
+                "non_null_count": 1431,
+                "unique_values": 200
             },
             "EnclosedPorch": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 118
             },
             "3SsnPorch": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 20
             },
             "ScreenPorch": {
                 "dtype": "int64",
-                "non_null_count": 1426,
-                "unique_values": 74
+                "non_null_count": 1431,
+                "unique_values": 75
             },
             "PoolArea": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 8
             },
             "PoolQC": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 4
             },
             "Fence": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 5
             },
             "MiscFeature": {
                 "dtype": "float64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 1
             },
             "MiscVal": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 19
             },
             "MoSold": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 12
             },
             "YrSold": {
                 "dtype": "int64",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 5
             },
             "SaleType": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 9
             },
             "SaleCondition": {
                 "dtype": "object",
-                "non_null_count": 1426,
+                "non_null_count": 1431,
                 "unique_values": 6
             },
             "SalePrice": {
                 "dtype": "int64",
-                "non_null_count": 1426,
-                "unique_values": 658
+                "non_null_count": 1431,
+                "unique_values": 655
             }
         },
         "type_validation": {
@@ -7838,39 +7838,34 @@
             }
         },
         "outlier_detection": {
-            "outliers_removed": 34,
-            "outlier_percentage": 2.328767123287671,
+            "outliers_removed": 29,
+            "outlier_percentage": 1.9863013698630139,
             "outlier_indices": [
-                54,
                 129,
                 137,
                 195,
-                253,
                 333,
                 346,
-                386,
                 531,
                 541,
                 558,
-                574,
+                568,
+                569,
                 670,
                 676,
                 685,
+                687,
                 821,
-                828,
-                849,
                 913,
-                921,
+                953,
+                954,
                 959,
+                966,
                 975,
-                984,
                 1057,
                 1062,
                 1118,
                 1184,
-                1190,
-                1216,
-                1229,
                 1230,
                 1237,
                 1359,

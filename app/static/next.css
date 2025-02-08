@@ -52,7 +52,7 @@ form{
 }
 
 .model-btn:hover {
-    background-color: #0056b3;
+    background-color: #5a8c00;
 }
 
 button {
@@ -66,4 +66,8 @@ button {
     margin: 10px 0;
     border: none;
     cursor: pointer;
+}
+
+button:hover {
+    background-color: #5a8c00;
 }
