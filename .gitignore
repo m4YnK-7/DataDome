@@ -6,3 +6,4 @@
 *.csv
 *profile_report.html
 *.log
+*.DS_Store
