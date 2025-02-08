@@ -4,7 +4,7 @@ import pandas as pd
 from profile_report import profile_report
 from column import cat_c
 from ydata_profiling import ProfileReport
-from model import train_predict_regression
+from model import train_predict_regression,visualize_results
 import requests
 import json
 
@@ -71,6 +71,7 @@ def run_model():
     data_csv = r"app\uploads\user_data.csv"
 
     results = train_predict_regression(data_csv, model_name)
+    # path = visualize_results()
     return jsonify(results)
  
 @app.route("/fetch-dataset", methods=["POST"])
