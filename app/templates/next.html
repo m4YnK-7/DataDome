@@ -7,52 +7,59 @@
     <link rel="stylesheet" href="static/next.css">
 </head>
 <body>
-
-
-    <div class="logo">
-        <img src="static/logo.jpeg" alt="DataDome" >
-    </div>
-
-    <div id="model-selection">
-        <h2>Select an ML Model</h2>
-        <button class="model-btn" onclick="selectModel('linear_regression')">Linear Regression</button>
-        <button class="model-btn" onclick="selectModel('decision_tree')">Decision Tree</button>
-        <button class="model-btn" onclick="selectModel('random_forest')">Random Forest</button>
-        <button class="model-btn" onclick="selectModel('svm')">SVM</button>
-        <button class="model-btn" onclick="selectModel('knn')">KNN</button>
-        <button class="model-btn" onclick="selectModel('logistic_regression')">Logistic Regression</button>
-        <button class="model-btn" onclick="selectModel('gradient_boosting')">Gradient Boosting</button>
-        <button class="model-btn" onclick="selectModel('xgboost')">XGBoost</button>
+    <p>Select an ML Model</p>
+    <div class="model-selection" id="model-selection">
+        <div class="prediction">
+            <button class="mainbutton">Prediction Models</button>
+            <button class="model-btn" onclick="selectModel('linear_regression')">Linear Regression</button>
+            <button class="model-btn" onclick="selectModel('random_forest')">Random Forest</button>
+            <button class="model-btn" onclick="selectModel('svm')">SVM</button>
+            <button class="model-btn" onclick="selectModel('knn')">KNN</button>
+            <button class="model-btn" onclick="selectModel('decision_tree')">Decision Tree</button>
+            <button class="model-btn" onclick="selectModel('xgboost')">XGBoost</button>
+        </div>
+        <div class="classification">
+            <button class="mainbutton">Classifiaction Models</button>
+            <button class="model-btn" onclick="selectModel('logistic_regression')">Logistic Regression</button>
+            <button class="model-btn" onclick="selectModel('random_forest')">Random Forest</button>
+            <button class="model-btn" onclick="selectModel('svm')">SVM</button>
+            <button class="model-btn" onclick="selectModel('knn')">KNN</button>
+            <button class="model-btn" onclick="selectModel('decision_tree')">Decision Tree</button>
+            <button class="model-btn" onclick="selectModel('xgboost')">XGBoost</button>
+        </div>
+        <div class="unsupervised">
+            <button class="mainbutton">Unsupervised Models</button>
+            <button class="model-btn" onclick="selectModel('kmeans')">KMeans</button>
+            <button class="model-btn" onclick="selectModel('pca')">PCA</button>
+        </div>
     </div>
 
     <div id="result"></div>
 
     <script>
+        function captureButtonInfo(event) {
+            let buttonText = event.target.innerText;
+            let parentDiv = event.target.closest("div");
+            let parentIdentifier = parentDiv.id || parentDiv.className || "Unknown Div";
+            
+            let result = [buttonText, parentIdentifier];
+            console.log(result);
 
-        document.getElementById("model-form").addEventListener("submit", function(event) {
-            event.preventDefault();
+            fetch("http://127.0.0.1:5000/capture", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ buttonText: buttonText, parentDiv: parentIdentifier })
+            });
+            return result;
+        }
 
-            let formData = new FormData();
-            formData.append("train_file", document.getElementById("train_file").files[0]);
-            formData.append("test_file", document.getElementById("test_file").files[0]);
-
-            fetch("/modelupload", {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    alert(data.error);
-                } else {
-                    document.getElementById("model-form").classList.add("hidden");
-                    document.getElementById("model-selection").classList.remove("hidden");
-                }
-            })
-            .catch(error => console.error("Error:", error));
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll("button").forEach(button => {
+                button.addEventListener("click", captureButtonInfo);
+            });
         });
-
-        // Model Selection & Run
         function selectModel(model) {
             fetch("/run_model", {
                 method: "POST",

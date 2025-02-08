@@ -126,7 +126,15 @@ def save_file():
             'error': str(e)
         }), 500
     
+@app.route('/capture', methods=['POST'])
+def capture():
+    data = request.json
+    button_text = data.get("buttonText")
+    parent_div = data.get("parentDiv")
 
+    print(f"Button Clicked: {button_text}, Inside Div: {parent_div}")
+
+    return jsonify({"message": "Data received", "buttonText": button_text, "parentDiv": parent_div})
 
     
 if __name__ == "__main__":
