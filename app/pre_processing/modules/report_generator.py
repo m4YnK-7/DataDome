@@ -18,13 +18,6 @@ class ReportGenerator:
                 'duplicate_indices': data_cleaner.duplicate_indices
             },
             'missing_values': data_cleaner.missing_info,
-            'column_details': {
-                col: {
-                    'dtype': str(processed_df[col].dtype),
-                    'non_null_count': int(processed_df[col].count()),
-                    'unique_values': int(processed_df[col].nunique())
-                } for col in processed_df.columns
-            }
         }
         
         report['type_validation'] = data_cleaner.type_validation_report
