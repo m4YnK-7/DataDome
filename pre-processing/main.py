@@ -8,10 +8,12 @@ from module.duplicate_removal import remove_duplicates
 from module.correlation_analysis import  drop_weak_correlations
 from module.missing_value import handle_missing_values
 from module.outlier_removal import remove_outliers
+from module.transformation import transform
+from module.reduction import reduce_dimensionality
 
 warnings.filterwarnings("ignore")
 
-file_path = "data\\unclean_house_prices.csv"
+file_path = "app\\uploads\\user_data.csv"
 
 try:
     df = load_dataset(file_path)
@@ -22,7 +24,10 @@ try:
     df = handle_missing_values(df, column_dtypes)
     df = remove_outliers(df, column_dtypes)
 
-    output_path = "data\\"+Path(file_path).stem + "_cleaned.csv"
+    df = transform(df)
+    
+
+    output_path = "data\\output\\"+Path(file_path).stem + "_transformed.csv"
     df.to_csv(output_path, index=False)
 
     logger.info("Dataset processing completed successfully")
