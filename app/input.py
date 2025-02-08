@@ -4,7 +4,7 @@ import pandas as pd
 from profile_report import profile_report
 from column import cat_c
 from ydata_profiling import ProfileReport
-from model import train_and_predict
+from model import train_predict_regression,visualize_results
 import requests
 import json
 
@@ -76,7 +76,8 @@ def run_model():
     if model_name not in valid_models:
         return jsonify({"error": "Invalid model selection."}), 400
 
-    results = train_and_predict(train_path, test_path, model_name)
+    results = train_predict_regression(data_csv, model_name)
+    # path = visualize_results()
     return jsonify(results)
  
 @app.route("/fetch-dataset", methods=["POST"])

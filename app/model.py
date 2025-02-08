@@ -27,8 +27,9 @@ models = {
     "gradient_boosting": GradientBoostingRegressor(),
     # "xgboost": XGBRegressor()
 }
-
-def pre_process(data_csv):
+  
+def train_predict_regression(data_csv, model_name):
+    # Load data
     data = pd.read_csv(data_csv)    
     X = data.iloc[:, :-1]
     y = data.iloc[:, -1]
@@ -40,24 +41,20 @@ def pre_process(data_csv):
     
     y_scaler = MinMaxScaler()
     y_scaled = y_scaler.fit_transform(y.values.reshape(-1, 1))
-   
-    return {X_scaled,y_scaled,y_scaler}
-
-def train_predict_regression(data_csv, model_name):
-    # Load data
-    # data, _ = main(data_csv)
-    #-----------------------------
-
-    X_scaled,y_scaled,y_scaler = pre_process(data_csv)
     
     X_train, X_test, y_train, y_test = train_test_split(
-        X_scaled, y_scaled, test_size=0.2,random_state=42
+        X_scaled, y_scaled, test_size=0.2, random_state=42
     )
 
     model = models.get(model_name)
     model.fit(X_train, y_train.ravel())  # ravel to convert to 1D array if needed
 
     y_test_pred = model.predict(X_test)
+
+    # **Inverse transform predicted and actual y values**
+    y_test = y_scaler.inverse_transform(y_test.reshape(-1, 1)).flatten()
+    y_test_pred = y_scaler.inverse_transform(y_test_pred.reshape(-1, 1)).flatten()
+    
     # Compute metrics
     mse = mean_squared_error(y_test, y_test_pred)
     rmse = np.sqrt(mse)
@@ -66,11 +63,10 @@ def train_predict_regression(data_csv, model_name):
     explained_variance = explained_variance_score(y_test, y_test_pred)
     mape = np.mean(np.abs((y_test - y_test_pred) / y_test)) * 100  # Mean Absolute Percentage Error
 
-
     # Store results
     results = {
-        "Model Coefficients": model.coef_.tolist(),
-        "Intercept": model.intercept_,
+        "Model Coefficients": model.coef_.tolist() if hasattr(model, "coef_") else "Not applicable",
+        "Intercept": model.intercept_.tolist() if hasattr(model, "intercept_") else "Not applicable",
         "Predictions on Test Data": y_test_pred.tolist(),
         "Performance Metrics": {
             "Mean Squared Error": mse,
@@ -82,23 +78,31 @@ def train_predict_regression(data_csv, model_name):
         }
     }
 
-    return results,y_test,y_test_pred
-    
+    return results, y_test.tolist(), y_test_pred.tolist()
+
 def train_predict_classification(data_csv, model_name):
     # Load data
-    # data, _ = main(data_csv)
-    #-----------------------------
+    data = pd.read_csv(data_csv)    
+    X = data.iloc[:, :-1]
+    y = data.iloc[:, -1]
+    
+    X = X.fillna(X.mean())
 
-    X_scaled,y_scaled,y_scaler = pre_process(data_csv)
+    X_scaler = MinMaxScaler()
+    X_scaled = X_scaler.fit_transform(X)
+    
+    y_scaler = MinMaxScaler()
+    y_scaled = y_scaler.fit_transform(y.values.reshape(-1, 1))
     
     X_train, X_test, y_train, y_test = train_test_split(
-        X_scaled, y_scaled, test_size=0.2,random_state=42
+        X_scaled, y_scaled, test_size=0.2, random_state=42
     )
 
     model = models.get(model_name)
     model.fit(X_train, y_train.ravel())  # ravel to convert to 1D array if needed
 
     y_test_pred = model.predict(X_test)
+
     # Compute metrics
     accuracy = accuracy_score(y_test, y_test_pred)
     class_report = classification_report(y_test, y_test_pred, output_dict=True)
@@ -108,17 +112,17 @@ def train_predict_classification(data_csv, model_name):
         "Classification Report": class_report
     }
 
-    
-    num_classes = len(np.unique(y_train))  # Calculate the number of unique classes in y_train
+    num_classes = len(np.unique(y_train))  # Calculate the number of unique classes
 
     results = {
-    "Model Type": "Binary Classification" if num_classes == 2 else "Multiclass Classification",
-    "Feature Importances": model.coef_.tolist(),
-    "Predictions on Test Data": y_test_pred.tolist(),
-    "Performance Metrics": metrics
-}
+        "Model Type": "Binary Classification" if num_classes == 2 else "Multiclass Classification",
+        "Feature Importances": model.coef_.tolist() if hasattr(model, "coef_") else "Not applicable",
+        "Predictions on Test Data": y_test_pred.tolist(),
+        "Performance Metrics": metrics
+    }
 
-    return results,y_test,y_test_pred
+    return results, y_test.tolist(), y_test_pred.tolist()
+
 
 def visualize_results(un_results, un_y_test, un_y_pred, pros_results, pros_test, pros_pred, save_path="img"):
     fig, axes = plt.subplots(4, 2, figsize=(20, 20))
