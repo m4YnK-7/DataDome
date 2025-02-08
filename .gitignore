@@ -7,3 +7,4 @@
 *profile_report.html
 *.log
 *.DS_Store
+*profiling_report.json
