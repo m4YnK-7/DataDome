@@ -4,7 +4,7 @@ import pandas as pd
 from profile_report import profile_report
 from column import cat_c
 from ydata_profiling import ProfileReport
-from model import train_and_predict
+from model import train_predict_regression
 import requests
 import json
 
@@ -14,11 +14,8 @@ UPLOAD_FOLDER = os.path.join(os.getcwd(), "app", "uploads")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
-global train_path, test_path
-train_path = ""
-test_path = ""
-df = pd.read_csv("app/uploads/user_data.csv")  # Replace with your actual CSV file
-numeric_columns = df.select_dtypes(include=['number']).columns.tolist()
+# df = pd.read_csv("app/uploads/user_data.csv")  
+# numeric_columns = df.select_dtypes(include=['number']).columns.tolist()
 
 @app.route("/")
 def index():
@@ -64,19 +61,16 @@ def next():
 
 @app.route("/run_model", methods=["POST"])
 def run_model():
-    global train_path, test_path
-
-    if not train_path or not test_path:
-        return jsonify({"error": "Files not uploaded yet."}), 400
-
     data = request.get_json()
     model_name = data.get("model_name")
 
     valid_models = ["linear_regression", "decision_tree", "random_forest", "svm", "knn", "logistic_regression", "gradient_boosting", "xgboost"]
     if model_name not in valid_models:
         return jsonify({"error": "Invalid model selection."}), 400
+    
+    data_csv = r"app\uploads\user_data.csv"
 
-    results = train_and_predict(train_path, test_path, model_name)
+    results = train_predict_regression(data_csv, model_name)
     return jsonify(results)
  
 @app.route("/fetch-dataset", methods=["POST"])
@@ -115,7 +109,7 @@ def save_file():
         current_dir = os.path.dirname(os.path.abspath(__file__))
         
         # Create the file path in the current directory
-        file_path = os.path.join(current_dir, 'submitted_data.json')
+        file_path = r"app\uploads\submitted_data.json"
         
         # Write the JSON data to a file
         with open(file_path, 'w') as f:

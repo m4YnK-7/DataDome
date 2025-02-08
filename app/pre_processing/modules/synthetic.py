@@ -4,55 +4,37 @@ from sdv.single_table import CTGANSynthesizer
 from sdv.metadata import SingleTableMetadata
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 import json
+from .utils import convert_to_serializable, infer_column_type
 
 import warnings
 warnings.filterwarnings('ignore')
+
+import pandas as pd
+import numpy as np
+import re
 
 def generate_synthetic_data(df, output_dir = '.', synthetic_fraction=0.2):
     """
     Generate synthetic data using CTGAN with reporting capabilities.
     """
-    synthesis_report = {
-        'original_shape': {
-            'rows': int(df.shape[0]),
-            'columns': int(df.shape[1])
-        },
-        'synthetic_fraction': float(synthetic_fraction),
-        'categorical_columns': {},
-        'numeric_columns': {}
-    }
-    
-    for col in df.select_dtypes(include=['object']).columns:
-        synthesis_report['categorical_columns'][col] = {
-            'before_synthesis': {
-                'unique_count': int(df[col].nunique()),
-                'sample_values': sorted(df[col].unique())[:5]
-            }
-        }
-    
-    for col in df.select_dtypes(include=['int64', 'float64']).columns:
-        synthesis_report['numeric_columns'][col] = {
-            'before_synthesis': {
-                'unique_count': int(df[col].nunique()),
-                'range': {
-                    'min': float(df[col].min()),
-                    'max': float(df[col].max())
-                }
-            }
-        }
-    
     num_synthetic = int(len(df) * synthetic_fraction)
     df_encoded = df.copy()
-    
     encoders = {}
-    categorical_columns = df.select_dtypes(include=['object']).columns
+
+    categorical_columns = []
+    numeric_columns = []
+    for column in df.columns:
+        _, column_type = infer_column_type(df[column])
+        # print(f"Column: {column}, Type: {column_type}")
+        if column_type in ['object', 'boolean']: categorical_columns.append(column)
+        elif column_type in ['int', 'float']: numeric_columns.append(column)
+
     for column in categorical_columns:
         le = LabelEncoder()
         encoded_values = le.fit_transform(df[column])
         df_encoded[column] = encoded_values.astype(float)
         encoders[column] = le
     
-    numeric_columns = df.select_dtypes(include=['int64', 'float64']).columns
     numeric_ranges = {
         column: {
             'min': df[column].min(),
@@ -102,6 +84,38 @@ def generate_synthetic_data(df, output_dir = '.', synthetic_fraction=0.2):
     
     combined_data = pd.concat([df_encoded, synthetic_data], axis=0, ignore_index=True)
     
+
+    # Initial report
+    synthesis_report = {
+        'original_shape': {
+            'rows': int(df.shape[0]),
+            'columns': int(df.shape[1])
+        },
+        'synthetic_fraction': float(synthetic_fraction),
+        'categorical_columns': {},
+        'numeric_columns': {}
+    }
+    
+    for col in categorical_columns:
+        synthesis_report['categorical_columns'][col] = {
+            'before_synthesis': {
+                'unique_count': int(df[col].nunique()),
+                'sample_values': sorted(df[col].unique())[:5]
+            }
+        }
+    
+    for col in numeric_columns:
+        synthesis_report['numeric_columns'][col] = {
+            'before_synthesis': {
+                'unique_count': int(df[col].nunique()),
+                'range': {
+                    'min': float(df[col].min()),
+                    'max': float(df[col].max())
+                }
+            }
+        }
+
+    # Post Synthesis
     for col in categorical_columns:
         synthesis_report['categorical_columns'][col]['after_synthesis'] = {
             'unique_count': int(combined_data[col].nunique()),
@@ -128,7 +142,7 @@ def generate_synthetic_data(df, output_dir = '.', synthetic_fraction=0.2):
     
     report['synthetic_data'] = synthesis_report
     with open(jpath, 'w') as f:
-        json.dump(report, f, indent=4)
+        json.dump(report, f, indent=4, default=convert_to_serializable)
     
     return combined_data
 

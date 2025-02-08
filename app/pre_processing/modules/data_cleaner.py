@@ -5,13 +5,14 @@ import pandas as pd
 from sklearn.impute import KNNImputer
 from sklearn.preprocessing import StandardScaler
 from scipy.stats import skew
+from pre_processing.modules.utils import infer_column_type
 
 
 class DataCleaner:
     def __init__(self):
         self.type_validation_report = {}
         self.missing_info = {}
-        self.duplicate_indices = []
+        # self.duplicate_indices = []
     
 
     def identify_duplicate_rows(self, df):
@@ -36,33 +37,6 @@ class DataCleaner:
         """
         Infer and validate data types for each column with regex handling.
         """
-        def extract_numeric(value):
-            if pd.isna(value):
-                return np.nan
-            if isinstance(value, (int, float)):
-                return value
-            
-            match = re.search(r'[-+]?(?:\d*\.\d+|\d+)', str(value))
-            return float(match.group()) if match else np.nan
-        
-        def infer_column_type(series):
-            series = series.astype(str).str.strip()
-            
-            bool_map = {'true': True, 'false': False, '1': True, '0': False}
-            boolean_values = series.str.lower().map(bool_map)
-            if boolean_values.notna().all():
-                return boolean_values, 'boolean'
-            
-            numeric_values = series.apply(extract_numeric)
-            if numeric_values.notna().any():
-                if numeric_values.apply(float.is_integer).all():
-                    return numeric_values.astype(int), 'int'
-                else:
-                    return numeric_values, 'float'
-            
-            return series, 'object'
-        
-
         def is_datetime(column) -> bool:
             try:
                 pd.to_datetime(column)

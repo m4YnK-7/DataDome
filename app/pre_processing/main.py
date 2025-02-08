@@ -12,20 +12,22 @@ from pre_processing.modules.synthetic import generate_synthetic_data
 import warnings 
 warnings.filterwarnings('ignore') 
 
-def main(file_path, output_dir='.'):
-
+def main(file_path, output_dir = r'output', gen_syn_data=False):
     data_cleaner = DataCleaner()
     data_imputer = DataImputer()
     report_generator = ReportGenerator()
-    
+
     # Load and process data
     original_df, initial_report = load_and_preprocess_dataset(file_path)
-    
+
     # Clean data
     processed_df,column_dtype = data_cleaner.infer_and_validate_column_types(original_df)
     processed_df = data_cleaner.identify_duplicate_rows(processed_df)
     data_cleaner.detect_missing_values(processed_df)
-    
+        
+    # Impute missing values
+    processed_df = data_imputer.impute_missing_values(processed_df,column_dtype)
+
     # Generate report
     profiling_report = report_generator.generate_profiling_report(
         original_df, processed_df, data_cleaner, data_imputer
@@ -37,24 +39,21 @@ def main(file_path, output_dir='.'):
             'profiling_report': profiling_report
         }, f, indent=4, default=convert_to_serializable)
 
-    # Impute missing values
-    processed_df = data_imputer.impute_missing_values(processed_df,column_dtype)
-    
     # Generate synthetic data
-    processed_df = generate_synthetic_data(processed_df, output_dir)
-    
+    if gen_syn_data: processed_df = generate_synthetic_data(processed_df, output_dir)
+
     # transformation
     # processed_df = transform(processed_df)
 
     #reduction
     # reduced_df = reduce_dimensionality(transform_df)
-    
+
     processed_dataset_path = os.path.join(output_dir, f'clean_{os.path.basename(file_path)}')
     processed_df.to_csv(processed_dataset_path, index=False)
-    
+
     return processed_df, profiling_report
 
 
 if __name__ == "__main__":
-    file_path = r"user_data.csv"
+    file_path = r"app\uploads\user_data.csv"
     processed_data, report = main(file_path)

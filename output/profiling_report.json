@@ -32,28 +32,6 @@
             "duplicate_indices": []
         },
         "missing_values": {},
-        "column_details": {
-            "TV": {
-                "dtype": "float64",
-                "non_null_count": 200,
-                "unique_values": 190
-            },
-            "radio": {
-                "dtype": "float64",
-                "non_null_count": 200,
-                "unique_values": 167
-            },
-            "newspaper": {
-                "dtype": "float64",
-                "non_null_count": 200,
-                "unique_values": 172
-            },
-            "sales": {
-                "dtype": "float64",
-                "non_null_count": 200,
-                "unique_values": 121
-            }
-        },
         "type_validation": {},
         "outlier_detection": {}
     }
