@@ -21,7 +21,7 @@ p{
 
 /* Styling for the table */
 table {
-    width: 60%;
+    width: 100%;
     border-collapse: collapse;
     text-align: center;
     background-color: #f9f9f9;
@@ -49,6 +49,7 @@ td {
     justify-content: center;
     align-items: center;    
 }
+
 /* Input fields inside the table */
 input {
     width: 50%;
@@ -68,6 +69,19 @@ button {
     max-width: 450px;
     border-radius: 15px;
     font-size: 25px;
+    margin: 10px 0;
+    border: none;
+    cursor: pointer;
+}
+
+.buts{
+    background-color: #76B900;
+    color: #fff;
+    padding: 5px 20px;
+    width: 30%;
+    max-width: 450px;
+    border-radius: 15px;
+    font-size: large;
     margin: 10px 0;
     border: none;
     cursor: pointer;

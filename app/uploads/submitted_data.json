@@ -1,0 +1,154 @@
+{
+  "Id": [
+    "",
+    ""
+  ],
+  "MSSubClass": [
+    "",
+    ""
+  ],
+  "LotFrontage": [
+    "",
+    ""
+  ],
+  "LotArea": [
+    "",
+    ""
+  ],
+  "OverallQual": [
+    "",
+    ""
+  ],
+  "OverallCond": [
+    "",
+    ""
+  ],
+  "YearBuilt": [
+    "",
+    ""
+  ],
+  "YearRemodAdd": [
+    "",
+    ""
+  ],
+  "MasVnrArea": [
+    "",
+    ""
+  ],
+  "BsmtFinSF1": [
+    "",
+    ""
+  ],
+  "BsmtFinSF2": [
+    "",
+    ""
+  ],
+  "BsmtUnfSF": [
+    "",
+    ""
+  ],
+  "TotalBsmtSF": [
+    "",
+    ""
+  ],
+  "1stFlrSF": [
+    "",
+    ""
+  ],
+  "2ndFlrSF": [
+    "",
+    ""
+  ],
+  "LowQualFinSF": [
+    "",
+    ""
+  ],
+  "GrLivArea": [
+    "",
+    ""
+  ],
+  "BsmtFullBath": [
+    "",
+    ""
+  ],
+  "BsmtHalfBath": [
+    "",
+    ""
+  ],
+  "FullBath": [
+    "",
+    ""
+  ],
+  "HalfBath": [
+    "",
+    ""
+  ],
+  "BedroomAbvGr": [
+    "",
+    ""
+  ],
+  "KitchenAbvGr": [
+    "",
+    ""
+  ],
+  "TotRmsAbvGrd": [
+    "",
+    ""
+  ],
+  "Fireplaces": [
+    "",
+    ""
+  ],
+  "GarageYrBlt": [
+    "",
+    ""
+  ],
+  "GarageCars": [
+    "",
+    ""
+  ],
+  "GarageArea": [
+    "",
+    ""
+  ],
+  "WoodDeckSF": [
+    "",
+    ""
+  ],
+  "OpenPorchSF": [
+    "",
+    ""
+  ],
+  "EnclosedPorch": [
+    "",
+    ""
+  ],
+  "3SsnPorch": [
+    "",
+    ""
+  ],
+  "ScreenPorch": [
+    "",
+    ""
+  ],
+  "PoolArea": [
+    "",
+    ""
+  ],
+  "MiscVal": [
+    "",
+    ""
+  ],
+  "MoSold": [
+    "",
+    ""
+  ],
+  "YrSold": [
+    "",
+    ""
+  ],
+  "SalePrice": [
+    "1212",
+    "121212"
+  ]
+}

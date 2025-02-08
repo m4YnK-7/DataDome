@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,59 +6,69 @@
     <link rel="stylesheet" href="static/column.css">
 </head>
 <body>
-
-
     <p>Column Categorisation</p>
     <div class="table-container">
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>Column Name</th>
-                    <th>Type</th>
-                    <th>Input</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Numeric Columns -->
-                {% for col in numeric %}
-                <tr>
-                    <td>{{ col }}</td>
-                    <td >Numeric</td>
-                    <td class="numeric">
-                        <input type="number" name="{{ col }}_floor" placeholder="Floor">
-                        <input type="number" name="{{ col }}_ceil" placeholder="Ceil">
-                    </td>
-                </tr>
-                {% endfor %}
+        <form method="post">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Column Name</th>
+                        <th>Type</th>
+                        <th>Input</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Numeric Columns -->
+                    {% for col in numeric %}
+                    <tr>
+                        <td>{{ col }}</td>
+                        <td>Numeric</td>
+                        <td class="numeric">
+                            <input type="number" name="{{ col }}_floor" placeholder="Floor" >
+                            <input type="number" name="{{ col }}_ceil" placeholder="Ceil" >
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% for col in categorical %}
+                    <tr>
+                        <td>{{ col }}</td>
+                        <td>Category</td>
+                        <td>
+                            <select name="{{ col }}_category" multiple>
+                                <option value="hello">hello</option>
+                                <option value="world">world</option>
+                                <option value="hello">hello</option>
+                                <option value="world">world</option>
+                                <option value="hello">hello</option>
+                                <option value="world">world</option>
+                            </select>
+                        </td>  
+                    </tr>
+                    {% endfor %}
 
-                <!-- Categorical Columns -->
-                {% for col in categorical %}
-                <tr>
-                    <td>{{ col }}</td>
-                    <td>Categorical</td>
-                    <td>
-                        <input type="text" name="{{ col }}_value" placeholder="Enter Category">
-                    </td>
-                </tr>
-                {% endfor %}
-
-                <!-- Datetime Columns -->
-                {% for col in datetime %}
-                <tr>
-                    <td>{{ col }}</td>
-                    <td>Datetime</td>
-                    <td>
-                        <input type="datetime-local" name="{{ col }}_floor">
-                        <input type="datetime-local" name="{{ col }}_ceil">
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                    <!-- Datetime Columns -->
+                    {% for col in datetime %}
+                    <tr>
+                        <td>{{ col }}</td>
+                        <td>Datetime</td>
+                        <td>
+                            <input type="date" name="{{ col }}_start" placeholder="Start Date">
+                            <input type="date" name="{{ col }}_end" placeholder="End Date">
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="continue">
+                <button class="buts" id="numeric" type="submit" >Submit</button>
+            </div>
+        </form>
     </div>
+
     <div class="continue">
         <button id="continue">Continue</button>
     </div>
     <script src="static/column.js"></script>
 </body>
 </html>
+    

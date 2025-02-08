@@ -1,4 +1,3 @@
-
 from flask import Flask, request, render_template, send_file, jsonify
 import os
 import pandas as pd
@@ -17,6 +16,8 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 global train_path, test_path
 train_path = ""
 test_path = ""
+df = pd.read_csv("app/uploads/user_data.csv")  # Replace with your actual CSV file
+numeric_columns = df.select_dtypes(include=['number']).columns.tolist()
 
 @app.route("/")
 def index():
@@ -46,24 +47,21 @@ def columns():
     df = pd.read_csv("app/uploads/user_data.csv")
 
     categorized = cat_c(df)
-
     categorical_data = {}
     for col in categorized["categorical"]:
         categorical_data[col] = df[col].dropna().unique().tolist()
-
-
     return render_template("column.html", 
                            columns = categorical_data,
                            numeric=categorized["numeric"], 
                            categorical=categorized["categorical"], 
-                           datetime=categorized["datetime"]
-                           )
+                           datetime=categorized["datetime"], 
+                           categorical_data=categorical_data)
 
 @app.route("/next")
 def next():
     return render_template("next.html")
 
-@app.route("/modelupload", methods=["POST"])
+@app.route("/modeluploadclea", methods=["POST"])
 def model_upload_file():
     global train_path, test_path
 
