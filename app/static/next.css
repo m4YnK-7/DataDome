@@ -1,0 +1,70 @@
+body{
+    background-color: hsl(0, 0%, 0%);
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.logo {
+    padding-top: 20px;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo img {
+    width: 700px;
+    max-width: 100%;
+    height: auto;
+}
+
+.hidden {
+    display: none;
+}
+
+p{
+    font-size: 40px;
+    font-weight: bold;
+}
+
+label{
+    font-size: 30px;
+}
+
+input{
+    padding: 20px;
+    font-size: 20px;
+    margin-left: 100px;
+    text-align: center;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+
+.model-btn:hover {
+    background-color: #0056b3;
+}
+
+button {
+    background-color: #76B900;
+    color: #fff;
+    padding: 20px;
+    width: 100%;
+    max-width: 450px;
+    border-radius: 15px;
+    font-size: 25px;
+    margin: 10px 0;
+    border: none;
+    cursor: pointer;
+}

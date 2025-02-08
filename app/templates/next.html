@@ -4,41 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ML Model Selection</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        .hidden {
-            display: none;
-        }
-        .model-btn {
-            margin: 10px;
-            padding: 10px 20px;
-            cursor: pointer;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
-        .model-btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" href="static/next.css">
 </head>
 <body>
 
 
-    <h2>Upload Training and Test CSV Files</h2>
-    <form id="model-form">
-        <label>Training Data (train.csv):</label>
-        <input type="file" id="train_file" required><br><br>
-
-        <label>Test Data (test.csv):</label>
-        <input type="file" id="test_file" required><br><br>
-
-        <button type="submit">Upload</button>
-    </form>
+    <div class="logo">
+        <img src="static/logo.jpeg" alt="DataDome" >
+    </div>
+    <p>Upload Training and Test CSV Files</p>
+    <div class="form">
+        <form id="model-form">
+            <label>Training Data (train.csv):</label>
+            <input type="file" id="train_file" required><br><br>
+    
+            <label>Test Data (test.csv):</label>
+            <input type="file" id="test_file" required><br><br>
+    
+            <button type="submit">Upload</button>
+        </form>
+    </div>
 
     <div id="model-selection" class="hidden">
         <h3>Select an ML Model</h3>
