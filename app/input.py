@@ -6,6 +6,8 @@ from profile_report import profile_report
 from column import cat_c
 from ydata_profiling import ProfileReport
 from model import train_and_predict
+import requests
+
 
 app = Flask(__name__)
 UPLOAD_FOLDER = os.path.join(os.getcwd(), "app", "uploads")
@@ -32,11 +34,12 @@ def upload_file():
     file_path = os.path.join(app.config["UPLOAD_FOLDER"], "user_data.csv")
     file.save(file_path)
 
-    try:
-        report_path = profile_report(file_path)
-        return send_file("..//profile_report.html", as_attachment=False)
-    except Exception as e:
-        return str(e), 400
+    return render_template("tempindex.html")
+
+@app.route("/generate", methods=["POST"])
+def generateFile():
+    profile_report("app/uploads/user_data.csv")
+    return send_file("..//profile_report.html", as_attachment=False)
 
 @app.route("/columns")
 def columns():
@@ -87,7 +90,33 @@ def run_model():
 
     results = train_and_predict(train_path, test_path, model_name)
     return jsonify(results)
+ 
+@app.route("/fetch-dataset", methods=["POST"])
+def fetch_dataset():
+    data = request.json
+    print("Received data:", data)  # Debugging: Print received data
 
+    dataset_url = data.get("url")
+    if not dataset_url:
+        return jsonify({"success": False, "error": "No URL provided"}), 400
+
+    try:
+        response = requests.get(dataset_url, stream=True)
+        response.raise_for_status()  # Raises error for HTTP failures
+
+        filename = "user_data.csv"
+        filepath = os.path.join(os.getcwd(),"app","uploads", filename)
+
+        with open(filepath, "wb") as file:
+            for chunk in response.iter_content(chunk_size=8192):
+                file.write(chunk)
+
+        return jsonify({"success": True, "filename": filename})
+
+    except requests.exceptions.RequestException as e:
+        print("Request failed:", str(e))  # Debugging: Print error
+        return jsonify({"success": False, "error": str(e)}), 500
+    
 if __name__ == "__main__":
     app.run(debug=True)
 

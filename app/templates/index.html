@@ -17,16 +17,14 @@
             <input type="text" id="datasetUrl" placeholder="Enter dataset URL">
             <button class="button" id="fetchDataset">Retrieve</button>
             <div class="file-name" id="datasetInfo"></div>
+            <button class="button hidden" id="continue">Continue</button>
         </div>
 
         <div class="browse">
             <form id="uploadForm" action="/save" method="post" enctype="multipart/form-data">
                 <input type="file" name="file" id="fileInput" required>
-                <button class="button" id="browseButton" onclick="document.getElementById('fileInput').click()">Browse</button>
-                <button class="button hidden" id="continue" type="submit">Generate Report</button>
+                <button class="button" id="browseButton" type="submit" onclick="document.getElementById('fileInput').click()">Browse</button>
             </form> 
-                <button class="button hidden" id="generate">Continue</button>
-
         </div>        
     </div>
 
@@ -36,7 +34,7 @@
     <div id="loadingScreen" class="hidden">
         <div class="loading-container">
             <div class="spinner"></div>
-            <p>Processing your dataset... Please wait.</p>
+            <p>Processing your dataset... Please     wait.</p>
         </div>
     </div>
 

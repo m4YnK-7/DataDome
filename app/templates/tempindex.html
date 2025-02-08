@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/style.css">
+    <title>DataDome</title>
+</head>
+<body>
+    <div class="logo">
+        <img src="static/logo.jpeg" alt="DataDome">
+    </div>
+    <br>
+    <div class="buts" id="buts">
+        <div class="browse">
+            <!-- Form will submit when clicking "Generate Report" -->
+            <form id="uploadForm" action="/generate" method="post">
+                <button type="submit" class="button" id="generate">Generate Report</button>
+            </form>
+            <button class="button" id="continue">Continue</button>
+        </div>        
+    </div>
+
+    <!-- Loading screen -->
+    <div id="loadingScreen" class="hidden">
+        <div class="loading-container">
+            <div class="spinner"></div>
+            <p>Processing your dataset... Please wait.</p>
+        </div>
+    </div>
+
+    <script src="static/tempscript.js"></script>
+</body>
+</html>

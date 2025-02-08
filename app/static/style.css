@@ -73,9 +73,9 @@ input[type="file"] {
 
 #generate{
     width: 100%;
-    margin-left: 250px;
-    margin-right: 250px;
 }
+
+
 
 .flexy {
     display: flex;
