@@ -55,27 +55,7 @@
     <div id="result"></div>
 
     <script>
-        // Dataset Profiling Upload
-        document.getElementById("profile-form").addEventListener("submit", function(event) {
-            event.preventDefault();
 
-            let formData = new FormData();
-            formData.append("file", document.getElementById("profile_file").files[0]);
-
-            fetch("/upload", {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.blob())
-            .then(blob => {
-                let url = URL.createObjectURL(blob);
-                window.open(url, "_blank"); // Open the generated profile report
-                document.getElementById("profile-status").textContent = "Profile report generated!";
-            })
-            .catch(error => console.error("Error:", error));
-        });
-
-        // Train/Test File Upload
         document.getElementById("model-form").addEventListener("submit", function(event) {
             event.preventDefault();
 

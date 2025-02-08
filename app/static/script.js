@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //     }
     // });
     // __________________________________________________________________-
-    document.getElementById("fetchDataset").addEventListener("click", function () {
+    fetchDataset.addEventListener("click", function () {
         const url = document.getElementById("datasetUrl").value.trim();
         const datasetInfo = document.getElementById("datasetInfo");
     
@@ -129,9 +129,11 @@ document.addEventListener("DOMContentLoaded", function () {
         loadingScreen.classList.remove("hidden"); // Show loading screen
 
     });
-});
 
     generateButton.addEventListener("click", function () {
         window.location.href = "/columns";
     });
+});
+
+    
 

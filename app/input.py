@@ -1,3 +1,4 @@
+
 from flask import Flask, request, render_template, send_file, jsonify
 import os
 import pandas as pd
@@ -7,44 +8,40 @@ from ydata_profiling import ProfileReport
 from model import train_and_predict
 
 app = Flask(__name__)
-UPLOAD_FOLDER = os.path.join(os.getcwd(),"app","uploads")
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)   # Save files in the current directory
+UPLOAD_FOLDER = os.path.join(os.getcwd(), "app", "uploads")
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-  
+
+global train_path, test_path
+train_path = ""
+test_path = ""
+
 @app.route("/")
 def index():
     return render_template("index.html")
 
-@app.route("/upload", methods=["POST"])
+@app.route("/save", methods=["POST"])
 def upload_file():
     if "file" not in request.files:
         return "No file part", 400
 
     file = request.files["file"]
-
     if file.filename == "":
         return "No selected file", 400
 
-    file_path = os.path.join(app.config["UPLOAD_FOLDER"],"user_data.csv")
+    file_path = os.path.join(app.config["UPLOAD_FOLDER"], "user_data.csv")
     file.save(file_path)
 
     try:
-        # Generate report
         report_path = profile_report(file_path)
         return send_file("..//profile_report.html", as_attachment=False)
     except Exception as e:
         return str(e), 400
 
-
 @app.route("/columns")
 def columns():
-    # Load a sample dataframe (replace this with your actual data)
-    df = pd.read_csv("app\\uploads\\user_data.csv")  # Replace with actual file
-
-    # Call your function to categorize columns
+    df = pd.read_csv("app/uploads/user_data.csv")
     categorized = cat_c(df)
-    print(categorized)
-    # Pass these lists to the template
     return render_template("column.html", 
                            numeric=categorized["numeric"], 
                            categorical=categorized["categorical"], 
@@ -59,13 +56,13 @@ def model_upload_file():
     global train_path, test_path
 
     if "train_file" not in request.files or "test_file" not in request.files:
-        return jsonify({"error": "Please upload both train and test CSV files."})
+        return jsonify({"error": "Please upload both train and test CSV files."}), 400
 
-    train_file = request.files["uploads/train.csv"]
-    test_file = request.files["uploads/test_file"]
+    train_file = request.files["train_file"]
+    test_file = request.files["test_file"]
 
     if train_file.filename == "" or test_file.filename == "":
-        return jsonify({"error": "No selected file."})
+        return jsonify({"error": "No selected file."}), 400
 
     train_path = os.path.join(UPLOAD_FOLDER, train_file.filename)
     test_path = os.path.join(UPLOAD_FOLDER, test_file.filename)
@@ -79,13 +76,14 @@ def run_model():
     global train_path, test_path
 
     if not train_path or not test_path:
-        return jsonify({"error": "Files not uploaded yet."})
+        return jsonify({"error": "Files not uploaded yet."}), 400
 
     data = request.get_json()
     model_name = data.get("model_name")
 
-    if model_name not in ["linear_regression", "decision_tree", "random_forest", "svm", "knn", "logistic_regression", "gradient_boosting", "xgboost"]:
-        return jsonify({"error": "Invalid model selection."})
+    valid_models = ["linear_regression", "decision_tree", "random_forest", "svm", "knn", "logistic_regression", "gradient_boosting", "xgboost"]
+    if model_name not in valid_models:
+        return jsonify({"error": "Invalid model selection."}), 400
 
     results = train_and_predict(train_path, test_path, model_name)
     return jsonify(results)
