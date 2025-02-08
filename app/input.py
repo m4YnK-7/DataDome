@@ -62,26 +62,6 @@ def columns():
 def next():
     return render_template("next.html")
 
-@app.route("/modeluploadclea", methods=["POST"])
-def model_upload_file():
-    global train_path, test_path
-
-    if "train_file" not in request.files or "test_file" not in request.files:
-        return jsonify({"error": "Please upload both train and test CSV files."}), 400
-
-    train_file = request.files["train_file"]
-    test_file = request.files["test_file"]
-
-    if train_file.filename == "" or test_file.filename == "":
-        return jsonify({"error": "No selected file."}), 400
-
-    train_path = os.path.join(UPLOAD_FOLDER, train_file.filename)
-    test_path = os.path.join(UPLOAD_FOLDER, test_file.filename)
-    train_file.save(train_path)
-    test_file.save(test_path)
-
-    return jsonify({"message": "Files uploaded successfully."})
-
 @app.route("/run_model", methods=["POST"])
 def run_model():
     global train_path, test_path
@@ -151,7 +131,15 @@ def save_file():
             'error': str(e)
         }), 500
     
+@app.route('/capture', methods=['POST'])
+def capture():
+    data = request.json
+    button_text = data.get("buttonText")
+    parent_div = data.get("parentDiv")
 
+    print(f"Button Clicked: {button_text}, Inside Div: {parent_div}")
+
+    return jsonify({"message": "Data received", "buttonText": button_text, "parentDiv": parent_div})
 
     
 if __name__ == "__main__":

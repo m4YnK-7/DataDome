@@ -5,25 +5,13 @@ body{
     text-align: center;
 }
 
-.logo {
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.logo img {
-    width: 600px;
-    max-width: 100%;
-    height: auto;
-}
 
 .hidden {
     display: none;
 }
 
 p{
-    font-size: 40px;
+    font-size: 3rem;
     font-weight: bold;
 }
 
@@ -38,11 +26,30 @@ input{
     text-align: center;
 }
 
+.model-selection{
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    margin-top: 50px;
+}
+
 form{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.prediction{
+    width: 33%;
+}
+
+.classification{
+    width: 33%;
+}
+
+.unsupervised{
+    width: 33%;
 }
 
 .form{
@@ -55,11 +62,11 @@ form{
     background-color: #5a8c00;
 }
 
-button {
+.model-btn{
     background-color: #76B900;
     color: #fff;
     padding: 20px;
-    width: 100%;
+    width: 55%;
     max-width: 450px;
     border-radius: 15px;
     font-size: 25px;
@@ -68,6 +75,16 @@ button {
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #5a8c00;
+.mainbutton{
+    background-color: #76B900;
+    color: #fff;
+    padding: 20px;
+    max-width: 450px;
+    border-radius: 15px;
+    font-size: 25px;
+    margin: 20px 0;
+    margin-bottom: 40px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
 }
