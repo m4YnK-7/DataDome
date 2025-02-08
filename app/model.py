@@ -9,6 +9,8 @@ from sklearn.preprocessing import LabelEncoder
 from pre_processing.main import main
 
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
+
 
 models = {
     "linear_regression": LinearRegression(),
@@ -44,8 +46,17 @@ def train_and_predict(train_csv, test_csv, model_name):
     model.fit(X_train, y_train)
 
     predictions = model.predict(X_test)
+    
+    # Use a separate MinMaxScaler for y
+    y_scaler = MinMaxScaler()
+    y_train_reshaped = y_train.values.reshape(-1, 1)  # Reshape to 2D
+    y_scaler.fit(y_train_reshaped)  # Fit on target variable only
+
+    # Reshape predictions before inverse transform
+    y_pred_reshaped = predictions.reshape(-1, 1)
+    y_pred_original = y_scaler.inverse_transform(y_pred_reshaped)
 
     return {
         "model": model_name,
-        "predictions": predictions.tolist()
+        "predictions": y_pred_original.tolist()
     }

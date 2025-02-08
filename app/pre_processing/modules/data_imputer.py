@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler
 import pandas as pd
 
 class DataImputer:
-    def _init_(self, n_neighbors=7):
+    def __init__(self, n_neighbors=7):
         self.n_neighbors = n_neighbors
         self.scaler = StandardScaler()
         self.imputer = KNNImputer(n_neighbors=n_neighbors)
@@ -74,9 +74,10 @@ class DataImputer:
         outliers_removed = len(df) - len(df_clean)
         # print(outliers_removed)
         self.outlier_report = {
-            'outliers_removed':outliers_removed,
+            'outliers_removed': outliers_removed,
             'outlier_percentage': outliers_removed / len(df) * 100,
             'outlier_indices': outlier_indices
         }
         
         return df_clean
+
