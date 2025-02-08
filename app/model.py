@@ -6,6 +6,9 @@ from sklearn.svm import SVR
 from sklearn.neighbors import KNeighborsRegressor
 # from xgboost import XGBRegressor
 from sklearn.preprocessing import LabelEncoder
+from pre_processing.main import main
+
+from sklearn.model_selection import train_test_split
 
 models = {
     "linear_regression": LinearRegression(),
@@ -30,16 +33,17 @@ def preprocess_data(csv_path):
     return data
 
 def train_and_predict(train_csv, test_csv, model_name):
-    train_data = preprocess_data(train_csv)
-    test_data = preprocess_data(test_csv)
+    data,_ = main(train_csv) 
 
-    X_train = train_data.iloc[:, :-1]
-    y_train = train_data.iloc[:, -1]
+    X = data.iloc[:, :-1]
+    y = data.iloc[:, -1]
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     model = models.get(model_name)
     model.fit(X_train, y_train)
 
-    predictions = model.predict(test_data)
+    predictions = model.predict(X_test)
 
     return {
         "model": model_name,

@@ -1,8 +1,9 @@
 import pandas as pd
 import numpy as np
+import os
 from sklearn.preprocessing import StandardScaler, OneHotEncoder, PolynomialFeatures
 
-def transform(df, output_path="data\\output\\transformed_data.csv"):
+def transform(df):
     """
     Reads a CSV file, normalizes numerical data, encodes categorical features,
     applies feature engineering (log transformation, polynomial features), and
@@ -35,24 +36,23 @@ def transform(df, output_path="data\\output\\transformed_data.csv"):
         df = pd.concat([df, encoded_cats], axis=1)
 
     # Log Transformation (Feature Engineering)
-    for col in numeric_features:
-        if df[col].min() > 0:  # Log transformation requires positive values
-            df[f"log_{col}"] = np.log1p(df[col])
+    # for col in numeric_features:
+    #     if df[col].min() > 0:  # Log transformation requires positive values
+    #         df[f"log_{col}"] = np.log1p(df[col])
 
     # Polynomial Features
-    poly = PolynomialFeatures(degree=2, interaction_only=True, include_bias=False)
-    poly_features = poly.fit_transform(df[numeric_features])
-    poly_feature_names = poly.get_feature_names_out(numeric_features)
-    df_poly = pd.DataFrame(poly_features, columns=poly_feature_names)
+    # poly = PolynomialFeatures(degree=2, interaction_only=True, include_bias=False)
+    # poly_features = poly.fit_transform(df[numeric_features])
+    # poly_feature_names = poly.get_feature_names_out(numeric_features)
+    # df_poly = pd.DataFrame(poly_features, columns=poly_feature_names)
 
-    # Merge Polynomial Features into DataFrame
-    df = pd.concat([df, df_poly], axis=1)
+    # # Merge Polynomial Features into DataFrame
+    # df = pd.concat([df, df_poly], axis=1)
 
-    # Save preprocessed CSV
-    # df.to_csv(output_path, index=False)
+    # # Save preprocessed CSV
+    # output_path = os.path.join('./output', f'clean_{os.path.basename('transformation.csv')}')
+    # df.to_csv("/output/", index=False)
 
-    print(f"✅ Data preprocessing complete. Saved as '{output_path}'.")
     return df
 
 
-# preprocess_csv("data\\output\\user_data_cleaned.csv")
