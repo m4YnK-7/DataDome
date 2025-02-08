@@ -6,6 +6,7 @@ from column import cat_c
 from ydata_profiling import ProfileReport
 from model import train_and_predict
 import requests
+import json
 
 
 app = Flask(__name__)
@@ -123,6 +124,35 @@ def fetch_dataset():
     except requests.exceptions.RequestException as e:
         print("Request failed:", str(e))  # Debugging: Print error
         return jsonify({"success": False, "error": str(e)}), 500
+    
+@app.route('/save-file', methods=['POST'])
+def save_file():
+    try:
+        # Get the JSON data from the request
+        json_data = request.get_json()
+        
+        # Get the current directory
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        
+        # Create the file path in the current directory
+        file_path = os.path.join(current_dir, 'submitted_data.json')
+        
+        # Write the JSON data to a file
+        with open(file_path, 'w') as f:
+            json.dump(json_data, f, indent=2)
+        
+        return jsonify({
+            'message': 'File saved successfully',
+            'path': file_path
+        }), 200
+        
+    except Exception as e:
+        return jsonify({
+            'error': str(e)
+        }), 500
+    
+
+
     
 if __name__ == "__main__":
     app.run(debug=True)

@@ -8,3 +8,4 @@
 *.log
 *.DS_Store
 *profiling_report.json
+*.json
