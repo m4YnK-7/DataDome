@@ -12,20 +12,8 @@
     <div class="logo">
         <img src="static/logo.jpeg" alt="DataDome" >
     </div>
-    <p>Upload Training and Test CSV Files</p>
-    <div class="form">
-        <form id="model-form">
-            <label>Training Data (train.csv):</label>
-            <input type="file" id="train_file" required><br><br>
-    
-            <label>Test Data (test.csv):</label>
-            <input type="file" id="test_file" required><br><br>
-    
-            <button type="submit">Upload</button>
-        </form>
-    </div>
 
-    <div id="model-selection" class="hidden">
+    <div id="model-selection">
         <h2>Select an ML Model</h2>
         <button class="model-btn" onclick="selectModel('linear_regression')">Linear Regression</button>
         <button class="model-btn" onclick="selectModel('decision_tree')">Decision Tree</button>

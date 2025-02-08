@@ -41,7 +41,7 @@ def main(file_path, output_dir='.'):
     processed_df = data_imputer.impute_missing_values(processed_df,column_dtype)
     
     # Generate synthetic data
-    processed_df = generate_synthetic_data(processed_df, output_dir)
+    # processed_df = generate_synthetic_data(processed_df, output_dir)
     
     # transformation
     # processed_df = transform(processed_df)

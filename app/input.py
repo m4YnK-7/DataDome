@@ -14,9 +14,6 @@ UPLOAD_FOLDER = os.path.join(os.getcwd(), "app", "uploads")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
-global train_path, test_path
-train_path = ""
-test_path = ""
 df = pd.read_csv("app/uploads/user_data.csv")  # Replace with your actual CSV file
 numeric_columns = df.select_dtypes(include=['number']).columns.tolist()
 
@@ -62,41 +59,19 @@ def columns():
 def next():
     return render_template("next.html")
 
-@app.route("/modeluploadclea", methods=["POST"])
-def model_upload_file():
-    global train_path, test_path
-
-    if "train_file" not in request.files or "test_file" not in request.files:
-        return jsonify({"error": "Please upload both train and test CSV files."}), 400
-
-    train_file = request.files["train_file"]
-    test_file = request.files["test_file"]
-
-    if train_file.filename == "" or test_file.filename == "":
-        return jsonify({"error": "No selected file."}), 400
-
-    train_path = os.path.join(UPLOAD_FOLDER, train_file.filename)
-    test_path = os.path.join(UPLOAD_FOLDER, test_file.filename)
-    train_file.save(train_path)
-    test_file.save(test_path)
-
-    return jsonify({"message": "Files uploaded successfully."})
 
 @app.route("/run_model", methods=["POST"])
 def run_model():
-    global train_path, test_path
-
-    if not train_path or not test_path:
-        return jsonify({"error": "Files not uploaded yet."}), 400
-
     data = request.get_json()
     model_name = data.get("model_name")
 
     valid_models = ["linear_regression", "decision_tree", "random_forest", "svm", "knn", "logistic_regression", "gradient_boosting", "xgboost"]
     if model_name not in valid_models:
         return jsonify({"error": "Invalid model selection."}), 400
+    
+    data_csv = r"output\clean_Advertising.csv"
 
-    results = train_and_predict(train_path, test_path, model_name)
+    results = train_and_predict(data_csv, model_name)
     return jsonify(results)
  
 @app.route("/fetch-dataset", methods=["POST"])

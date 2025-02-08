@@ -34,10 +34,11 @@ def preprocess_data(csv_path):
     data.fillna(data.mean(), inplace=True)
     return data
 
-def train_and_predict(train_csv, test_csv, model_name):
-    data,_ = main(train_csv) 
+def train_and_predict(data_csv, model_name):
+    data,_ = main(data_csv) 
 
     X = data.iloc[:, :-1]
+    print("TEST")
     y = data.iloc[:, -1]
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
