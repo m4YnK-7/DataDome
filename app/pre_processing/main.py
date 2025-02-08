@@ -1,13 +1,13 @@
 import os
 import json
-from modules.data_loader import load_and_preprocess_dataset
-from modules.data_cleaner import DataCleaner
-from modules.data_imputer import DataImputer
-from modules.report_generator import ReportGenerator
-from modules.utils import convert_to_serializable
-from modules.transformation import transform
-from modules.reduction import reduce_dimensionality
-from modules.synthetic import generate_synthetic_data
+from pre_processing.modules.data_loader import load_and_preprocess_dataset
+from pre_processing.modules.data_cleaner import DataCleaner
+from pre_processing.modules.data_imputer import DataImputer
+from pre_processing.modules.report_generator import ReportGenerator
+from pre_processing.modules.utils import convert_to_serializable
+from pre_processing.modules.transformation import transform
+from pre_processing.modules.reduction import reduce_dimensionality
+from pre_processing.modules.synthetic import generate_synthetic_data
 
 import warnings 
 warnings.filterwarnings('ignore') 
