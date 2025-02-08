@@ -44,11 +44,20 @@ def generateFile():
 @app.route("/columns")
 def columns():
     df = pd.read_csv("app/uploads/user_data.csv")
+
     categorized = cat_c(df)
+
+    categorical_data = {}
+    for col in categorized["categorical"]:
+        categorical_data[col] = df[col].dropna().unique().tolist()
+
+
     return render_template("column.html", 
+                           columns = categorical_data,
                            numeric=categorized["numeric"], 
                            categorical=categorized["categorical"], 
-                           datetime=categorized["datetime"])
+                           datetime=categorized["datetime"]
+                           )
 
 @app.route("/next")
 def next():
