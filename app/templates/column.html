@@ -34,13 +34,11 @@
                         <td>{{ col }}</td>
                         <td>Category</td>
                         <td>
+
                             <select name="{{ col }}_category" multiple>
-                                <option value="hello">hello</option>
-                                <option value="world">world</option>
-                                <option value="hello">hello</option>
-                                <option value="world">world</option>
-                                <option value="hello">hello</option>
-                                <option value="world">world</option>
+                                {% for val in categorical_data[col] %}
+                                <option value="{{ val }}">{{ val }}</option>
+                                {% endfor %}
                             </select>
                         </td>  
                     </tr>

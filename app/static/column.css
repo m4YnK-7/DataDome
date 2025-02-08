@@ -61,6 +61,15 @@ input {
     font-size: medium;
 }
 
+select{
+    width: 75%;
+}
+
+option{
+    font-size: small;
+    text-align: center;
+}
+
 button {
     background-color: #76B900;
     color: #fff;

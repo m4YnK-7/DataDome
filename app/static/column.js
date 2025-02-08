@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (!jsonData[colName]) jsonData[colName] = [];
                 jsonData[colName].push(value);
             }
-            jsonData[colName].push(value);  // Store as array: [floor, ceil]
+             // Store as array: [floor, ceil]
         });
 
         console.log("Submitting Data: ", jsonData);
