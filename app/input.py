@@ -92,8 +92,8 @@ def run_model():
         pass
     
     print(results)
-
-    path = visualize_results(
+    
+    visualize_results(
         un_results=un_results,
         un_y_test=un_y_test,    
         un_y_pred=un_y_test_pred,

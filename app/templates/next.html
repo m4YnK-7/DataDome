@@ -8,7 +8,7 @@
 </head>
 <body>
     <p>Select an ML Model</p>   
-    <input type="text" id="userInput" placeholder="Enter Targeted Column or Cluster Number">
+    <input type="text" id="userInput" placeholder="Enter Target Column">
     <div class="model-selection" id="model-selection">
         <div class="prediction">
             <button class="mainbutton">Prediction Models</button>
@@ -17,7 +17,6 @@
             <button class="model-btn" onclick="selectModel('svm')">SVM</button>
             <button class="model-btn" onclick="selectModel('knn')">KNN</button>
             <button class="model-btn" onclick="selectModel('decision_tree')">Decision Tree</button>
-            <button class="model-btn" onclick="selectModel('xgboost')">XGBoost</button>
         </div>
         <div class="classification">
             <button class="mainbutton">Classifiaction Models</button>
@@ -26,24 +25,12 @@
             <button class="model-btn" onclick="selectModel('svm')">SVM</button>
             <button class="model-btn" onclick="selectModel('knn')">KNN</button>
             <button class="model-btn" onclick="selectModel('decision_tree')">Decision Tree</button>
-            <button class="model-btn" onclick="selectModel('xgboost')">XGBoost</button>
-        </div>
-        <div class="unsupervised">
-            <button class="mainbutton">Unsupervised Models</button>
-            <button class="model-btn" onclick="selectModel('kmeans')">KMeans</button>
-            <button class="model-btn" onclick="selectModel('pca')">PCA</button>
         </div>
     </div>
 
-    <div>
-        <img src="static/img.jpeg" alt="Model Image" style="width:100%; height:auto;">
-    </div>
+    <div class="imageContainer"></div>
 
     <div id="result"></div>
-    <div id="visualization" style="display:none; margin-top: 20px;">
-        <h3>Visualization</h3>
-        <img id="result-image" src="" alt="Result Image" style="width:100%; height:auto;">
-    </div>
 
     <script>
         function captureButtonInfo(event) {
@@ -83,27 +70,48 @@
             .then(response => response.json())
             .then(data => {
                 document.getElementById("result").innerHTML = `<h3>Results</h3><pre>${JSON.stringify(data, null, 2)}</pre>`;
-                if (model === "linear_regression") {
-                    fetch("/visualize", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({ model_name: model })
-                    })
-                    .then(response => response.json())
-                    .then(imageData => {
-                        const imgElement = document.getElementById("result-image");
-                        imgElement.src = imageData.save_path;  // Set the image source to the returned save_path
-                        document.getElementById("visualization").style.display = "block";
-                    })
-                    .catch(error => console.error("Error in visualization:", error));
-                } else {
-                    document.getElementById("visualization").style.display = "none";
+                console.log("Model Response:", data);
+                
+                // Ensure the image container exists before appending
+                if (!document.getElementById("imageContainer")) {
+                    let container = document.createElement("div");
+                    container.id = "imageContainer";
+                    document.body.appendChild(container); // Append to body
                 }
+
+                // Call function to create the image
+                createImage();
             })
             
             .catch(error => console.error("Error:", error));
+        }
+
+        function createImage() {
+            // Check if image already exists to prevent duplicates
+            let container = document.getElementById("imageContainer");
+            if (!container) {
+                container = document.createElement("div");
+                container.id = "imageContainer";
+                document.body.appendChild(container);
+            }
+            // Remove the existing image if it exists
+            
+            // Create an image element
+            let img = document.createElement("img");
+            img.src = "static/img.jpeg";  // Set image source
+            img.alt = "Dynamic Image";  // Alternative text
+            img.id = "dynamicImage";  // Assign an ID to avoid duplication
+            img.style.width = "100%";  // Optional: Set size
+            img.style.height = "auto";  // Maintain aspect ratio
+            img.style.marginTop = "10px";
+
+            // Ensure imageContainer exists before appending
+            let existingImage = document.getElementById("dynamicImage");
+            if (existingImage) {
+                existingImage.remove();
+            }
+            
+            container.appendChild(img);
         }
     </script>
 
