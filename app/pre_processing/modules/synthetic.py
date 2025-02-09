@@ -143,6 +143,8 @@ def generate_synthetic_data(df, output_dir = '.', synthetic_fraction=0.2):
     report['synthetic_data'] = synthesis_report
     with open(jpath, 'w') as f:
         json.dump(report, f, indent=4, default=convert_to_serializable)
+
+    combined_data.to_csv(r"app\output\synthetic.csv")
     
     return combined_data
 

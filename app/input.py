@@ -16,6 +16,7 @@ CORS(app)  # Enable CORS to allow frontend request
 UPLOAD_FOLDER = os.path.join(os.getcwd(), "app", "uploads")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+app.config['SESSION_PERMANENT'] = False
 
 app.secret_key = "98109922727217863536"
 
@@ -96,7 +97,7 @@ def run_model():
         pros_results= results,
         pros_test=y_test,
         pros_pred=y_test_pred,
-        save_path= r"app\output\img.png"
+        save_path= r"app\static\img.jpeg"
     )
 
 
@@ -177,6 +178,9 @@ def capture():
 def checkbox_data():
     data = request.get_json()
     generate_value = data.get("generate", 0)  # Default to 0 if missing
+
+    session["checkbox"] = generate_value
+    session.modified = True
     print(f"Checkbox Value Received: {generate_value}")
 
     # Process the value (you can use it in your model or save it)
@@ -185,7 +189,7 @@ def checkbox_data():
 
     
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
 
 
 

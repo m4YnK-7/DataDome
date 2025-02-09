@@ -1,3 +1,4 @@
+from flask import session
 from matplotlib import pyplot as plt
 import numpy as np
 import seaborn as sns
@@ -30,14 +31,15 @@ models = {
 }
 
 def pre_process_data(file_path):
-    df,_ = main(file_path)
+    checkbox = session.get("checkbox")
+    df,_ = main(file_path,gen_syn_data=checkbox)
     return df
 
 def train_predict_regression(data_csv, model_name,target):
     df = pre_process_data(data_csv)
     df, scaler = transform(df,target_column=target,task="prediction")
 
-    df.to_csv(r"app\output\clean_user_data_test.csv")
+    df.to_csv(r"app\output\after_preprocess.csv")
     # Load data
     # data = pd.read_csv(data_csv))    
     X = df.drop(columns=[target])
