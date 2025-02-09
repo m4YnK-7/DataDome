@@ -13,7 +13,7 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.preprocessing import LabelEncoder
 from pre_processing.main import main
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler,StandardScaler
 from sklearn.metrics import classification_report, explained_variance_score, mean_absolute_error, mean_squared_error, r2_score
 
 
@@ -36,10 +36,10 @@ def train_predict_regression(data_csv, model_name):
     
     X = X.fillna(X.mean())
 
-    X_scaler = MinMaxScaler()
+    X_scaler = StandardScaler()
     X_scaled = X_scaler.fit_transform(X)
     
-    y_scaler = MinMaxScaler()
+    y_scaler = StandardScaler()
     y_scaled = y_scaler.fit_transform(y.values.reshape(-1, 1))
     
     X_train, X_test, y_train, y_test = train_test_split(

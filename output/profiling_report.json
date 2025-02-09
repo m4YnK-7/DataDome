@@ -1,31 +1,43 @@
 {
     "initial_report": {
         "original_shape": [
-            200,
-            4
+            103,
+            10
         ],
         "column_indices": {
-            "TV": 0,
-            "radio": 1,
-            "newspaper": 2,
-            "sales": 3
+            "Cement": 0,
+            "Slag": 1,
+            "Fly ash": 2,
+            "Water": 3,
+            "SP": 4,
+            "Coarse Aggr.": 5,
+            "Fine Aggr.": 6,
+            "SLUMP(cm)": 7,
+            "FLOW(cm)": 8,
+            "Compressive Strength (28-day)(Mpa)": 9
         }
     },
     "profiling_report": {
         "original_dataset": {
-            "total_rows": 200,
-            "total_columns": 5,
+            "total_rows": 103,
+            "total_columns": 11,
             "column_names": [
-                "TV",
-                "radio",
-                "newspaper",
-                "sales",
+                "Cement",
+                "Slag",
+                "Fly ash",
+                "Water",
+                "SP",
+                "Coarse Aggr.",
+                "Fine Aggr.",
+                "SLUMP(cm)",
+                "FLOW(cm)",
+                "Compressive Strength (28-day)(Mpa)",
                 "_row_hash"
             ]
         },
         "processed_dataset": {
-            "total_rows": 200,
-            "total_columns": 4
+            "total_rows": 103,
+            "total_columns": 10
         },
         "duplicates": {
             "duplicate_count": 0,
