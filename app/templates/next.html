@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="static/next.css">
 </head>
 <body>
-    <p>Select an ML Model</p>
+    <p>Select an ML Model</p>   
+    <input type="text" id="userInput" placeholder="Enter Targeted Column or Cluster Number">
     <div class="model-selection" id="model-selection">
         <div class="prediction">
             <button class="mainbutton">Prediction Models</button>
@@ -34,15 +35,26 @@
         </div>
     </div>
 
+    <div>
+        <!-- <img src="static/model.jpeg" alt="Model Image" style="width:100%; height:auto;"> -->
+    </div>
+
     <div id="result"></div>
+    <div id="visualization" style="display:none; margin-top: 20px;">
+        <h3>Visualization</h3>
+        <img id="result-image" src="" alt="Result Image" style="width:100%; height:auto;">
+    </div>
 
     <script>
         function captureButtonInfo(event) {
             let buttonText = event.target.innerText;
             let parentDiv = event.target.closest("div");
             let parentIdentifier = parentDiv.id || parentDiv.className || "Unknown Div";
-            
-            let result = [buttonText, parentIdentifier];
+            let inputValue = document.getElementById("userInput").value || "No Input";
+
+            console.log(inputValue);
+
+            let result = [buttonText, parentIdentifier, inputValue];
             console.log(result);
 
             fetch("http://127.0.0.1:5000/capture", {
@@ -50,13 +62,13 @@
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ buttonText: buttonText, parentDiv: parentIdentifier })
+            body: JSON.stringify({ buttonText: buttonText, parentDiv: parentIdentifier, inputVal: inputValue })
             });
             return result;
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll("button").forEach(button => {
+            document.querySelectorAll("button").forEach(button => { 
                 button.addEventListener("click", captureButtonInfo);
             });
         });
@@ -71,7 +83,26 @@
             .then(response => response.json())
             .then(data => {
                 document.getElementById("result").innerHTML = `<h3>Results</h3><pre>${JSON.stringify(data, null, 2)}</pre>`;
+                if (model === "linear_regression") {
+                    fetch("/visualize", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ model_name: model })
+                    })
+                    .then(response => response.json())
+                    .then(imageData => {
+                        const imgElement = document.getElementById("result-image");
+                        imgElement.src = imageData.save_path;  // Set the image source to the returned save_path
+                        document.getElementById("visualization").style.display = "block";
+                    })
+                    .catch(error => console.error("Error in visualization:", error));
+                } else {
+                    document.getElementById("visualization").style.display = "none";
+                }
             })
+            
             .catch(error => console.error("Error:", error));
         }
     </script>

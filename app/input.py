@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, send_file, jsonify
+from flask import Flask, request, render_template, send_file, jsonify, session
 import os
 import pandas as pd
 from profile_report import profile_report
@@ -7,9 +7,11 @@ from ydata_profiling import ProfileReport
 from model import train_predict_regression,visualize_results
 import requests
 import json
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS to allow frontend request
 UPLOAD_FOLDER = os.path.join(os.getcwd(), "app", "uploads")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
@@ -65,8 +67,12 @@ def run_model():
     valid_models = ["linear_regression", "decision_tree", "random_forest", "svm", "knn", "logistic_regression", "gradient_boosting", "xgboost"]
     if model_name not in valid_models:
         return jsonify({"error": "Invalid model selection."}), 400
+    
+    # Retrieve result_array from session
+    result_array = session.get("result_array", [])
 
-    data_csv = r"app\uploads\user_data.csv"
+
+    data_csv = r"app/uploads/user_data.csv"
     results = train_predict_regression(data_csv, model_name)
     # path = visualize_results()
     return jsonify(results)
@@ -123,15 +129,24 @@ def save_file():
             'error': str(e)
         }), 500
     
+# To give array to visualization
+
 @app.route('/capture', methods=['POST'])
 def capture():
     data = request.json
-    button_text = data.get("buttonText")
-    parent_div = data.get("parentDiv")
+    button_text = data.get("buttonText", "Unknown Button")
+    parent_div = data.get("parentDiv", "Unknown Div")
+    input_value = data.get("inputVal", "No Input")
 
-    print(f"Button Clicked: {button_text}, Inside Div: {parent_div}")
+    result_array = [button_text, parent_div, input_value]
 
-    return jsonify({"message": "Data received", "buttonText": button_text, "parentDiv": parent_div})
+    # Store result_array in session
+    session["result_array"] = result_array  
+
+    print(f"Received Data: {result_array}")
+
+    return jsonify({"message": "Data received successfully", "data": result_array})
+
 
     
 if __name__ == "__main__":
