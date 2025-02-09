@@ -4,10 +4,11 @@ import pandas as pd
 from profile_report import profile_report
 from column import cat_c
 from ydata_profiling import ProfileReport
-from model import train_predict_regression,visualize_results
+from model import classification_standard, regression_standard, train_predict_regression,visualize_results,train_predict_classification
 import requests
 import json
 from flask_cors import CORS
+
 
 
 app = Flask(__name__)
@@ -15,6 +16,8 @@ CORS(app)  # Enable CORS to allow frontend request
 UPLOAD_FOLDER = os.path.join(os.getcwd(), "app", "uploads")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+app.secret_key = "98109922727217863536"
 
 
 @app.route("/")
@@ -70,10 +73,33 @@ def run_model():
         return jsonify({"error": "Invalid model selection."}), 400
     
     # Retrieve result_array from session
-    result_array = session.get("result_array", [])
+    result_array = session.get("result_array")
+    print(result_array[2])
 
     data_csv = r"app\uploads\user_data.csv"
-    results = train_predict_regression(data_csv, model_name,target = "Compressive Strength (28-day)(Mpa)")
+
+    results = {}
+
+    if(result_array[1] == "prediction"):
+        results, y_test, y_test_pred = train_predict_regression(data_csv, model_name,target = result_array[2])
+        un_results, un_y_test, un_y_test_pred = regression_standard(data_csv, model_name,target = result_array[2])
+    elif(result_array[1] == "classification"):
+        results, y_test, y_test_pred = train_predict_classification(data_csv, model_name,target = result_array[2])
+        un_results, un_y_test, un_y_test_pred = classification_standard(data_csv, model_name,target = result_array[2])
+    else:
+        pass
+
+    path = visualize_results(
+        un_results=un_results,
+        un_y_test=un_y_test,
+        un_y_pred=un_y_test_pred,
+        pros_results= results,
+        pros_test=y_test,
+        pros_pred=y_test_pred,
+        save_path= r"app\output\img.png"
+    )
+
+
     # path = visualize_results()
     return jsonify(results)
 
@@ -141,6 +167,7 @@ def capture():
 
     # Store result_array in session
     session["result_array"] = result_array  
+    session.modified = True
 
     print(f"Received Data: {result_array}")
 

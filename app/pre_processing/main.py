@@ -12,7 +12,7 @@ from pre_processing.modules.rule_based_cleaning import rule_based_cleaning
 import warnings 
 warnings.filterwarnings('ignore') 
 
-def main(file_path, output_dir='output', gen_syn_data=False, target=None, task=None):
+def main(file_path, output_dir='app\output', gen_syn_data=False, target=None, task=None):
 
     data_cleaner = DataCleaner()
     data_imputer = DataImputer()
@@ -21,7 +21,7 @@ def main(file_path, output_dir='output', gen_syn_data=False, target=None, task=N
     # Load and process data
     original_df, initial_report = load_and_preprocess_dataset(file_path)
 
-    original_df = rule_based_cleaning(original_df,r"app\uploads\submitted_data.json")
+    # original_df = rule_based_cleaning(original_df,r"app\uploads\submitted_data.json")
     
     # Clean data
     processed_df,column_dtype = data_cleaner.infer_and_validate_column_types(original_df)

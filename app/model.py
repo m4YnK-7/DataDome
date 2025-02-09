@@ -35,15 +35,13 @@ def pre_process_data(file_path):
 
 def train_predict_regression(data_csv, model_name,target):
     df = pre_process_data(data_csv)
-    df, scaler = transform(df,target_column=target,task="regression")
+    df, scaler = transform(df,target_column=target,task="prediction")
 
-    df.to_csv(r"output\clean_user_data_test.csv")
+    df.to_csv(r"app\output\clean_user_data_test.csv")
     # Load data
     # data = pd.read_csv(data_csv))    
     X = df.drop(columns=[target])
     y = df[target]
-
-    
         
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42
@@ -82,30 +80,38 @@ def train_predict_regression(data_csv, model_name,target):
         }
     }
 
-    return results, y_test.tolist(), y_test_pred.tolist()
+    print("REGRE")
 
-def train_predict_classification(data_csv, model_name):
+    y_test = scaler.inverse_transform(y_test.reshape(-1, 1)).flatten()
+    y_test_pred = scaler.inverse_transform(np.array(y_test_pred).reshape(-1, 1)).flatten()
+
+
+    return results, y_test, y_test_pred
+
+def train_predict_classification(data_csv, model_name,target):
+    df = pre_process_data(data_csv)
+    df, scaler = transform(df,target_column=target,task="classification")
+
+    df.to_csv(r"app\output\clean_user_data_test.csv")
     # Load data
-    data = pd.read_csv(data_csv)    
-    X = data.iloc[:, :-1]
-    y = data.iloc[:, -1]
-    
-    X = X.fillna(X.mean())
-
-    X_scaler = MinMaxScaler()
-    X_scaled = X_scaler.fit_transform(X)
-    
-    y_scaler = MinMaxScaler()
-    y_scaled = y_scaler.fit_transform(y.values.reshape(-1, 1))
-    
+    # data = pd.read_csv(data_csv))    
+    X = df.drop(columns=[target])
+    y = df[target]
+        
     X_train, X_test, y_train, y_test = train_test_split(
-        X_scaled, y_scaled, test_size=0.2, random_state=42
+        X, y, test_size=0.2, random_state=42
     )
 
     model = models.get(model_name)
     model.fit(X_train, y_train.ravel())  # ravel to convert to 1D array if needed
 
     y_test_pred = model.predict(X_test)
+
+    y_test = y_test.astype(int)
+    y_test_pred = y_test_pred.astype(int)
+    # **Inverse transform predicted and actual y values**
+    y_test = scaler.inverse_transform(y_test.to_numpy())
+    y_test_pred = scaler.inverse_transform(np.array(y_test_pred))
 
     # Compute metrics
     accuracy = accuracy_score(y_test, y_test_pred)
@@ -118,6 +124,8 @@ def train_predict_classification(data_csv, model_name):
 
     num_classes = len(np.unique(y_train))  # Calculate the number of unique classes
 
+    print("CLASSIFICATIOn")
+
     results = {
         "Model Type": "Binary Classification" if num_classes == 2 else "Multiclass Classification",
         "Feature Importances": model.coef_.tolist() if hasattr(model, "coef_") else "Not applicable",
@@ -127,8 +135,104 @@ def train_predict_classification(data_csv, model_name):
 
     return results, y_test.tolist(), y_test_pred.tolist()
 
+def regression_standard(data_csv,model_name,target):
+   # Load data
+    data = pd.read_csv(data_csv)    
+    X = data.drop(columns=[target])
+    y = data[target]
 
-def visualize_results(un_results, un_y_test, un_y_pred, pros_results, pros_test, pros_pred, save_path="img"):
+    X = X.fillna(X.mean())
+
+    X_scaler = StandardScaler()
+    X_scaled = X_scaler.fit_transform(X)
+
+    y_scaler = StandardScaler()
+    y_scaled = y_scaler.fit_transform(y.values.reshape(-1, 1))
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X_scaled, y_scaled, test_size=0.2, random_state=42
+    )
+
+    model = models.get(model_name)
+    model.fit(X_train, y_train.ravel())  # ravel to convert to 1D array if needed
+
+    y_test_pred = model.predict(X_test)
+
+    # Compute metrics
+    mse = mean_squared_error(y_test, y_test_pred)
+    rmse = np.sqrt(mse)
+    mae = mean_absolute_error(y_test, y_test_pred)
+    r2 = r2_score(y_test, y_test_pred)
+    explained_variance = explained_variance_score(y_test, y_test_pred)
+    mape = np.mean(np.abs((y_test - y_test_pred) / y_test)) * 100  # Mean Absolute Percentage Error
+
+    # Store results
+    results = {
+        "Model Coefficients": model.coef_.tolist() if hasattr(model, "coef_") else "Not applicable",
+        "Intercept": model.intercept_.tolist() if hasattr(model, "intercept_") else "Not applicable",
+        "Predictions on Test Data": y_test_pred.tolist(),
+        "Performance Metrics": {
+            "Mean Squared Error": mse,
+            "Root Mean Squared Error": rmse,
+            "Mean Absolute Error": mae,
+            "Mean Absolute Percentage Error": mape,
+            "R-squared Score": r2,
+            "Explained Variance Score": explained_variance
+        }
+    }
+
+    print("REGRE")
+    y_test = y_scaler.inverse_transform(y_test.reshape(-1, 1)).flatten()
+    y_test_pred = y_scaler.inverse_transform(np.array(y_test_pred).reshape(-1, 1)).flatten()
+
+
+    return results, y_test, y_test_pred
+
+def classification_standard(data_csv,model_name,target):
+    # Load data
+    data = pd.read_csv(data_csv)    
+    X = data.drop(columns=[target])
+    y = data.iloc[target]
+
+    X = X.fillna(X.mean())
+
+    X_scaler = StandardScaler()
+    X_scaled = X_scaler.fit_transform(X)
+
+    y_scaler = LabelEncoder()
+    y_scaled = y_scaler.fit_transform(y.values.reshape(-1, 1))
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X_scaled, y_scaled, test_size=0.2, random_state=42
+    )
+
+    model = models.get(model_name)
+    model.fit(X_train, y_train.ravel())  # ravel to convert to 1D array if needed
+
+    y_test_pred = model.predict(X_test)
+        # Compute metrics
+    accuracy = accuracy_score(y_test, y_test_pred)
+    class_report = classification_report(y_test, y_test_pred, output_dict=True)
+    
+    metrics = {
+        "Accuracy": accuracy,
+        "Classification Report": class_report
+    }
+
+    num_classes = len(np.unique(y_train))  # Calculate the number of unique classes
+
+    print("CLASSIFICATIOn")
+
+    results = {
+        "Model Type": "Binary Classification" if num_classes == 2 else "Multiclass Classification",
+        "Feature Importances": model.coef_.tolist() if hasattr(model, "coef_") else "Not applicable",
+        "Predictions on Test Data": y_test_pred.tolist(),
+        "Performance Metrics": metrics
+    }
+
+    return results, y_test.tolist(), y_test_pred.tolist()
+
+def visualize_results(un_results, un_y_test, un_y_pred, pros_results, pros_test, pros_pred, save_path):
     fig, axes = plt.subplots(4, 2, figsize=(20, 20))
     axes = axes.flatten()
     
@@ -160,8 +264,6 @@ def visualize_results(un_results, un_y_test, un_y_pred, pros_results, pros_test,
     
     plt.tight_layout()
     
-    # Save the figure properly
-    os.makedirs(os.path.dirname(save_path), exist_ok=True)
     plt.savefig(save_path)
     plt.close()
     

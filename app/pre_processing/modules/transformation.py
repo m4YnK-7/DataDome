@@ -15,7 +15,7 @@ def transform(df, target_column, task):
     label_encoder = LabelEncoder()
 
     # Transform target variable (Y)
-    if task.lower() == "regression":
+    if task.lower() == "prediction":
         Y = df[target_column].copy().values.reshape(-1, 1)
         Y = y_scaler.fit_transform(Y)
         Y = pd.DataFrame(Y, columns=[target_column])
@@ -49,7 +49,7 @@ def transform(df, target_column, task):
 
     transformed_df = pd.concat([X, Y], axis=1)
 
-    return transformed_df, y_scaler
+    return transformed_df, (y_scaler if task == "prediction" else label_encoder)
 
 
 
