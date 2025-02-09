@@ -10,13 +10,14 @@ def transform(df, target_column, task):
     and returning a concatenated DataFrame.
     """
 
-    scaler = StandardScaler()
+    y_scaler = StandardScaler()
+    x_scaler = StandardScaler()
     label_encoder = LabelEncoder()
 
     # Transform target variable (Y)
     if task.lower() == "regression":
         Y = df[target_column].copy().values.reshape(-1, 1)
-        Y = scaler.fit_transform(Y)
+        Y = y_scaler.fit_transform(Y)
         Y = pd.DataFrame(Y, columns=[target_column])
     elif task.lower() == "classification":
         Y = label_encoder.fit_transform(df[target_column])  
@@ -36,15 +37,19 @@ def transform(df, target_column, task):
 
     # Scale numerical features
     if numeric_features:
-        X[numeric_features] = scaler.fit_transform(X[numeric_features])
+        X[numeric_features] = x_scaler.fit_transform(X[numeric_features])
 
     # Encode categorical features using Label Encoding
     if categorical_features:
         for col in categorical_features:
             X[col] = label_encoder.fit_transform(X[col])
 
+    X = X.reset_index(drop = True)
+    Y = Y.reset_index(drop = True)
+
     transformed_df = pd.concat([X, Y], axis=1)
-    return transformed_df
+
+    return transformed_df, y_scaler
 
 
 

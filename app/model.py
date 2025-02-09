@@ -16,6 +16,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler,StandardScaler
 from sklearn.metrics import classification_report, explained_variance_score, mean_absolute_error, mean_squared_error, r2_score
 
+from pre_processing.modules.transformation import transform
 
 models = {
     "linear_regression": LinearRegression(),
@@ -27,23 +28,25 @@ models = {
     "gradient_boosting": GradientBoostingRegressor(),
     # "xgboost": XGBRegressor()
 }
-  
-def train_predict_regression(data_csv, model_name):
-    # Load data
-    data = pd.read_csv(data_csv)    
-    X = data.iloc[:, :-1]
-    y = data.iloc[:, -1]
-    
-    X = X.fillna(X.mean())
 
-    X_scaler = StandardScaler()
-    X_scaled = X_scaler.fit_transform(X)
+def pre_process_data(file_path):
+    df,_ = main(file_path)
+    return df
+
+def train_predict_regression(data_csv, model_name,target):
+    df = pre_process_data(data_csv)
+    df, scaler = transform(df,target_column=target,task="regression")
+
+    df.to_csv(r"output\clean_user_data_test.csv")
+    # Load data
+    # data = pd.read_csv(data_csv))    
+    X = df.drop(columns=[target])
+    y = df[target]
+
     
-    y_scaler = StandardScaler()
-    y_scaled = y_scaler.fit_transform(y.values.reshape(-1, 1))
-    
+        
     X_train, X_test, y_train, y_test = train_test_split(
-        X_scaled, y_scaled, test_size=0.2, random_state=42
+        X, y, test_size=0.2, random_state=42
     )
 
     model = models.get(model_name)
@@ -52,9 +55,10 @@ def train_predict_regression(data_csv, model_name):
     y_test_pred = model.predict(X_test)
 
     # **Inverse transform predicted and actual y values**
-    y_test = y_scaler.inverse_transform(y_test.reshape(-1, 1)).flatten()
-    y_test_pred = y_scaler.inverse_transform(y_test_pred.reshape(-1, 1)).flatten()
-    
+    y_test = scaler.inverse_transform(y_test.to_numpy().reshape(-1, 1)).flatten()
+    y_test_pred = scaler.inverse_transform(np.array(y_test_pred).reshape(-1, 1)).flatten()
+
+
     # Compute metrics
     mse = mean_squared_error(y_test, y_test_pred)
     rmse = np.sqrt(mse)

@@ -6,8 +6,8 @@ from pre_processing.modules.data_imputer import DataImputer
 from pre_processing.modules.report_generator import ReportGenerator
 from pre_processing.modules.utils import convert_to_serializable
 from pre_processing.modules.transformation import transform
-from pre_processing.modules.reduction import reduce_dimensionality
 from pre_processing.modules.synthetic import generate_synthetic_data
+from pre_processing.modules.rule_based_cleaning import rule_based_cleaning
 
 import warnings 
 warnings.filterwarnings('ignore') 
@@ -20,6 +20,8 @@ def main(file_path, output_dir='output', gen_syn_data=False, target=None, task=N
     
     # Load and process data
     original_df, initial_report = load_and_preprocess_dataset(file_path)
+
+    original_df = rule_based_cleaning(original_df,r"app\uploads\submitted_data.json")
     
     # Clean data
     processed_df,column_dtype = data_cleaner.infer_and_validate_column_types(original_df)
@@ -44,10 +46,7 @@ def main(file_path, output_dir='output', gen_syn_data=False, target=None, task=N
     if gen_syn_data: processed_df = generate_synthetic_data(processed_df, output_dir)
     
     # transformation
-    processed_df = transform(processed_df, target_column=target, task=task)
-
-    #reduction
-    # reduced_df = reduce_dimensionality(transform_df)
+    # processed_df = transform(processed_df, target_column=target, task=task)
     
     processed_dataset_path = os.path.join(output_dir, f'clean_{os.path.basename(file_path)}')
     processed_df.to_csv(processed_dataset_path, index=False)
