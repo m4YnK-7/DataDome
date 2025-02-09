@@ -43,6 +43,9 @@ def transform(df, target_column, task):
         for col in categorical_features:
             X[col] = label_encoder.fit_transform(X[col])
 
+    X = X.reset_index(drop = True)
+    Y = Y.reset_index(drop = True)
+
     transformed_df = pd.concat([X, Y], axis=1)
     return transformed_df
 
