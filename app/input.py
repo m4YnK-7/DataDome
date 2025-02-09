@@ -57,6 +57,7 @@ def columns():
 def next():
     return render_template("next.html")
 
+#___________________________________________________________________________________________________________________________________
 @app.route("/run_model", methods=["POST"])
 def run_model():
     data = request.get_json()
@@ -67,9 +68,11 @@ def run_model():
         return jsonify({"error": "Invalid model selection."}), 400
 
     data_csv = r"app\uploads\user_data.csv"
-    results = train_predict_regression(data_csv, model_name)
+    results = train_predict_regression(data_csv, model_name,target = "Compressive Strength (28-day)(Mpa)")
     # path = visualize_results()
     return jsonify(results)
+
+#_______________________________________________________________________________________________________________________________________--
  
 @app.route("/fetch-dataset", methods=["POST"])
 def fetch_dataset():
@@ -102,12 +105,9 @@ def save_file():
     try:
         # Get the JSON data from the request
         json_data = request.get_json()
-        
-        # Get the current directory
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        
+       
         # Create the file path in the current directory
-        file_path = os.path.join(current_dir, 'submitted_data.json')
+        file_path = r"app/uploads/submitted_data.json"
         
         # Write the JSON data to a file
         with open(file_path, 'w') as f:
