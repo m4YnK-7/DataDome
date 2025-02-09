@@ -12,6 +12,7 @@ from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.svm import SVR
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.preprocessing import LabelEncoder
+import global_store
 from pre_processing.main import main
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler,StandardScaler
@@ -31,7 +32,7 @@ models = {
 }
 
 def pre_process_data(file_path):
-    checkbox = session.get("checkbox")
+    checkbox =  global_store.global_data["checkbox"]
     df,_ = main(file_path,gen_syn_data=checkbox)
     return df
 
@@ -71,7 +72,8 @@ def train_predict_regression(data_csv, model_name,target):
     results = {
         "Model Coefficients": model.coef_.tolist() if hasattr(model, "coef_") else "Not applicable",
         "Intercept": model.intercept_.tolist() if hasattr(model, "intercept_") else "Not applicable",
-        "Predictions on Test Data": y_test_pred.tolist(),
+        "Expected":y_test.tolist(),
+        "Preds": y_test_pred.tolist(),
         "Performance Metrics": {
             "Mean Squared Error": mse,
             "Root Mean Squared Error": rmse,
@@ -81,12 +83,6 @@ def train_predict_regression(data_csv, model_name,target):
             "Explained Variance Score": explained_variance
         }
     }
-
-    print("REGRE")
-
-    y_test = scaler.inverse_transform(y_test.reshape(-1, 1)).flatten()
-    y_test_pred = scaler.inverse_transform(np.array(y_test_pred).reshape(-1, 1)).flatten()
-
 
     return results, y_test, y_test_pred
 
@@ -160,6 +156,11 @@ def regression_standard(data_csv,model_name,target):
 
     y_test_pred = model.predict(X_test)
 
+    # **Inverse transform predicted and actual y values**
+    y_test = y_scaler.inverse_transform(y_test.reshape(-1, 1)).flatten()
+    y_test_pred = y_scaler.inverse_transform(y_test_pred.reshape(-1, 1)).flatten()
+
+
     # Compute metrics
     mse = mean_squared_error(y_test, y_test_pred)
     rmse = np.sqrt(mse)
@@ -172,7 +173,8 @@ def regression_standard(data_csv,model_name,target):
     results = {
         "Model Coefficients": model.coef_.tolist() if hasattr(model, "coef_") else "Not applicable",
         "Intercept": model.intercept_.tolist() if hasattr(model, "intercept_") else "Not applicable",
-        "Predictions on Test Data": y_test_pred.tolist(),
+        "Expected":y_test.tolist(),
+        "Preds": y_test_pred.tolist(),
         "Performance Metrics": {
             "Mean Squared Error": mse,
             "Root Mean Squared Error": rmse,
@@ -182,11 +184,6 @@ def regression_standard(data_csv,model_name,target):
             "Explained Variance Score": explained_variance
         }
     }
-
-    print("REGRE")
-    y_test = y_scaler.inverse_transform(y_test.reshape(-1, 1)).flatten()
-    y_test_pred = y_scaler.inverse_transform(np.array(y_test_pred).reshape(-1, 1)).flatten()
-
 
     return results, y_test, y_test_pred
 
@@ -232,17 +229,21 @@ def classification_standard(data_csv,model_name,target):
         "Performance Metrics": metrics
     }
 
-    return results, y_test.tolist(), y_test_pred.tolist()
+    return results, y_test, y_test_pred
 
 def visualize_results(un_results, un_y_test, un_y_pred, pros_results, pros_test, pros_pred, save_path):
     fig, axes = plt.subplots(4, 2, figsize=(20, 20))
     axes = axes.flatten()
     
     for i, (yt, yp, title) in enumerate([
-        (un_y_test, un_y_pred, "Conventional Results"),
-        (pros_test, pros_pred, "Our Model processing Results")
+        (un_results["Expected"], un_results["Preds"], "Conventional Results"),
+        (pros_results["Expected"], pros_results["Preds"], "Our Model processing Results")
     ]):
-        residuals = yt - yp
+        # Convert lists to numpy arrays for element-wise subtraction
+        yt = np.array(yt).flatten()
+        yp = np.array(yp).flatten()
+        residuals = yt- yp
+    
         
         sns.scatterplot(x=yt, y=yp, alpha=0.7, ax=axes[i])
         axes[i].plot([yt.min(), yt.max()], [yt.min(), yt.max()], 'r', linestyle='--')
@@ -265,7 +266,7 @@ def visualize_results(un_results, un_y_test, un_y_pred, pros_results, pros_test,
         axes[i + 6].legend()
     
     plt.tight_layout()
-    
+
     plt.savefig(save_path)
     plt.close()
     

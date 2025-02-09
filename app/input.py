@@ -8,6 +8,7 @@ from model import classification_standard, regression_standard, train_predict_re
 import requests
 import json
 from flask_cors import CORS
+import global_store
 
 
 
@@ -89,10 +90,12 @@ def run_model():
         un_results, un_y_test, un_y_test_pred = classification_standard(data_csv, model_name,target = result_array[2])
     else:
         pass
+    
+    print(results)
 
     path = visualize_results(
         un_results=un_results,
-        un_y_test=un_y_test,
+        un_y_test=un_y_test,    
         un_y_pred=un_y_test_pred,
         pros_results= results,
         pros_test=y_test,
@@ -179,8 +182,7 @@ def checkbox_data():
     data = request.get_json()
     generate_value = data.get("generate", 0)  # Default to 0 if missing
 
-    session["checkbox"] = generate_value
-    session.modified = True
+    global_store.global_data["checkbox"] = generate_value  
     print(f"Checkbox Value Received: {generate_value}")
 
     # Process the value (you can use it in your model or save it)
@@ -189,7 +191,7 @@ def checkbox_data():
 
     
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)
 
 
 

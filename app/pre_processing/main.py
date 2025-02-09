@@ -1,5 +1,7 @@
 import os
 import json
+
+from flask import session
 from pre_processing.modules.data_loader import load_and_preprocess_dataset
 from pre_processing.modules.data_cleaner import DataCleaner
 from pre_processing.modules.data_imputer import DataImputer
@@ -21,7 +23,7 @@ def main(file_path, output_dir='app\output', gen_syn_data=False, target=None, ta
     # Load and process data
     original_df, initial_report = load_and_preprocess_dataset(file_path)
 
-    original_df = rule_based_cleaning(original_df,r"app\uploads\submitted_data.json")
+    # original_df = rule_based_cleaning(original_df,r"app\uploads\submitted_data.json")
     
     # Clean data
     processed_df,column_dtype = data_cleaner.infer_and_validate_column_types(original_df)
