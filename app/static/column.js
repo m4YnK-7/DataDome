@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let jsonData = {};
 
         formData.forEach((value, key) => {
-            let colName = key.split("_")[0];
+            let colName = key.replace(/([^]*)$/, '');
 
             if (key.endsWith("_floor") || key.endsWith("_ceil")) {
                 if (!jsonData[colName]) jsonData[colName] = [];
@@ -49,5 +49,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("continue").addEventListener("click", function () {
         window.location.href = "/next";
+    });
+
+    document.getElementById("generateData").addEventListener("change", function() {
+        let checkboxValue = this.checked ? 1 : 0;
+
+        fetch("/checkbox-data", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ generate: checkboxValue })
+        })
+        .then(response => response.json())
+        .then(data => console.log("Response:", data))
+        .catch(error => console.error("Error:", error));
     });
 });

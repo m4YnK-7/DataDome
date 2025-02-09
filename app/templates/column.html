@@ -7,9 +7,6 @@
 </head>
 <body>
     <p>Column Categorisation</p>
-    <div class="continue">
-        <button id="toggleButton" onclick="toggleState()" style="margin-bottom: 50px;">Generate Synthetic Data</button>
-    </div>
     <div class="table-container">
         <form method="post">
             <table border="1">
@@ -66,9 +63,14 @@
         </form>
     </div>
 
+    <label>
+        <input type="checkbox" id="generateData"> Synthetic Data Generation
+    </label>
+    
     <div class="continue">
         <button id="continue" onclick="exportState()">Continue</button>
     </div>
+    
     <script src="static/column.js"></script>
 </body>
 </html>

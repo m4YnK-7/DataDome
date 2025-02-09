@@ -173,6 +173,15 @@ def capture():
 
     return jsonify({"message": "Data received successfully", "data": result_array})
 
+@app.route('/checkbox-data', methods=['POST'])
+def checkbox_data():
+    data = request.get_json()
+    generate_value = data.get("generate", 0)  # Default to 0 if missing
+    print(f"Checkbox Value Received: {generate_value}")
+
+    # Process the value (you can use it in your model or save it)
+    
+    return jsonify({"message": "Checkbox value received", "value": generate_value})
 
     
 if __name__ == "__main__":
