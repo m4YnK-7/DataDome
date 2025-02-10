@@ -11,12 +11,12 @@ DataDo.me is an automated, end-to-end modular solution that makes the data clean
 
 It implements hypertuned algorithms to detect and resolve duplicates, missing values, outliers, and type inconsistencies. It goes a step further and scales the data, encodes categorical values, and, even augments sparse or uniform datasets with distribution-aware synthetic samples, if needed.
 
-#### The Final Output:
+### The Final Output:
 A clean, consistent dataset optimized for high-performance analytics and model training.
 
 ---
 
-#### **Why DataDo.me?**
+### **Why DataDo.me?**
 
 Compare and contrast the efficacy of a dataset cleaned with our tools versus conventional cleaning using final output metrics.
 
@@ -24,7 +24,7 @@ Compare and contrast the efficacy of a dataset cleaned with our tools versus con
 
 ---
 
-### **Key Features**
+## **Key Features**
 
 - **Duplicate Detection & Removal** using **MD5 hashing**
 - **Null Value Imputation** using **KNN** for social-network type validation and diversity
@@ -33,14 +33,14 @@ Compare and contrast the efficacy of a dataset cleaned with our tools versus con
 - **CTGAN Synthetic Data Generation** to enhance dataset diversity
 ---
 
-### **Impact & SDG Contribution**
+## **Impact & SDG Contribution**
 
 This project aligns with **SDG 9: Industry, Innovation, and Infrastructure** by enhancing data quality and infrastructure across sectors such as healthcare, agriculture, and finance. By ensuring reliable, clean datasets, DataDo.me facilitates smarter decision-making and more impactful AI models.
 
 With today's evolving AI paradigm, this tool ensures a mere dataset will never be a road-block to your innovation!
 ---
 
-### **Installation**
+## **Installation**
 
 ```bash
 # Clone the repository
@@ -58,7 +58,7 @@ Access the prototype at: [http://localhost:5000](http://localhost:5000)
 
 ---
 
-### **Future Directions**
+## **Future Directions**
 
 - **Graph Neural Networks (GNNs)** to capture complex relationships for more precise cleaning
 - **Domain-Specific Optimizations** for industry-specific data structures
