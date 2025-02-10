@@ -1,24 +1,21 @@
 from flask import session
-from matplotlib import pyplot as plt
 import numpy as np
-import seaborn as sns
-import os
 import pandas as pd
+from matplotlib.pyplot import plt
+import seaborn as sns
 
-from sklearn.metrics import accuracy_score
+from sklearn.svm import SVR
 from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-from sklearn.svm import SVR
 from sklearn.neighbors import KNeighborsRegressor
-from sklearn.preprocessing import LabelEncoder
-from utils import global_store
-from pre_processing.main import main
+from sklearn.preprocessing import LabelEncoder,StandardScaler
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler, StandardScaler
-from sklearn.metrics import classification_report, explained_variance_score, mean_absolute_error, mean_squared_error, r2_score
+from sklearn.metrics import classification_report, explained_variance_score, mean_absolute_error, mean_squared_error, r2_score,accuracy_score
 
+from pre_processing.main import main
 from pre_processing.modules.transformation import transform
+from utils import global_store
 
 models = {
     "linear_regression": LinearRegression(),
@@ -31,20 +28,17 @@ models = {
     # "xgboost": XGBRegressor()
 }
 
-
 def pre_process_data(file_path):
     checkbox = global_store.global_data["checkbox"]
     df, _ = main(file_path, gen_syn_data=checkbox)
     return df
-
 
 def train_predict_regression(data_csv, model_name, target):
     df = pre_process_data(data_csv)
     df, scaler = transform(df, target_column=target, task="prediction")
 
     df.to_csv(r"output\after_preprocess.csv")
-    # Load data
-    # data = pd.read_csv(data_csv))
+
     X = df.drop(columns=[target])
     y = df[target]
 
@@ -57,7 +51,6 @@ def train_predict_regression(data_csv, model_name, target):
     model.fit(X_train, y_train.ravel())
 
     y_test_pred = model.predict(X_test)
-
     # **Inverse transform predicted and actual y values**
     y_test = scaler.inverse_transform(
         y_test.to_numpy().reshape(-1, 1)).flatten()
@@ -97,8 +90,7 @@ def train_predict_classification(data_csv, model_name, target):
     df, scaler = transform(df, target_column=target, task="classification")
 
     df.to_csv(r"output\clean_user_data_test.csv")
-    # Load data
-    # data = pd.read_csv(data_csv))
+
     X = df.drop(columns=[target])
     y = df[target]
 
@@ -118,7 +110,6 @@ def train_predict_classification(data_csv, model_name, target):
     y_test = scaler.inverse_transform(y_test.to_numpy())
     y_test_pred = scaler.inverse_transform(np.array(y_test_pred))
 
-    # Compute metrics
     accuracy = accuracy_score(y_test, y_test_pred)
     class_report = classification_report(y_test, y_test_pred, output_dict=True)
 
@@ -127,10 +118,7 @@ def train_predict_classification(data_csv, model_name, target):
         "Classification Report": class_report
     }
 
-    # Calculate the number of unique classes
     num_classes = len(np.unique(y_train))
-
-    print("CLASSIFICATIOn")
 
     results = {
         "Model Type": "Binary Classification" if num_classes == 2 else "Multiclass Classification",
@@ -143,7 +131,6 @@ def train_predict_classification(data_csv, model_name, target):
 
 
 def regression_standard(data_csv, model_name, target):
-   # Load data
     data = pd.read_csv(data_csv)
     X = data.drop(columns=[target])
     y = data[target]
@@ -171,7 +158,6 @@ def regression_standard(data_csv, model_name, target):
     y_test_pred = y_scaler.inverse_transform(
         y_test_pred.reshape(-1, 1)).flatten()
 
-    # Compute metrics
     mse = mean_squared_error(y_test, y_test_pred)
     rmse = np.sqrt(mse)
     mae = mean_absolute_error(y_test, y_test_pred)
@@ -222,7 +208,7 @@ def classification_standard(data_csv, model_name, target):
     model.fit(X_train, y_train.ravel())
 
     y_test_pred = model.predict(X_test)
-    # Compute metrics
+   
     accuracy = accuracy_score(y_test, y_test_pred)
     class_report = classification_report(y_test, y_test_pred, output_dict=True)
 

@@ -1,24 +1,27 @@
+import requests
+from flask_cors import CORS
 from flask import Flask, request, render_template, send_file, jsonify, session
+
+import os
+import json
 import pandas as pd
+
 from utils.profile_report import profile_report
 from utils.categorize_columns import cat_c
-from ydata_profiling import ProfileReport
-from pre_processing.models import classification_standard, regression_standard, train_predict_regression,visualize_results,train_predict_classification
-import requests
-import json
-from flask_cors import CORS
 import utils.global_store as global_store
-import os
+from utils.secret_key import generate_secret_key
+
+from pre_processing.models import classification_standard, regression_standard, train_predict_regression,visualize_results,train_predict_classification
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS to allow frontend request
+CORS(app)  
+
 UPLOAD_FOLDER = os.path.join(os.getcwd(), "app", "uploads")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config['SESSION_PERMANENT'] = False
 
-app.secret_key = "98109922727217863536"
-
+app.secret_key = generate_secret_key()
 
 @app.route("/")
 def index():
@@ -101,8 +104,6 @@ def run_model():
         save_path= r"app\static\metrics.jpeg"
     )
 
-
-    # path = visualize_results()
     return jsonify(results)
 
 #_______________________________________________________________________________________________________________________________________--
@@ -110,7 +111,7 @@ def run_model():
 @app.route("/fetch-dataset", methods=["POST"])
 def fetch_dataset():
     data = request.json
-    print("Received data:", data)  # Debugging: Print received data
+    print("Received data:", data)  
 
     dataset_url = data.get("url")
     if not dataset_url:
@@ -136,10 +137,7 @@ def fetch_dataset():
 @app.route('/save-file', methods=['POST'])
 def save_file():
     try:
-        # Get the JSON data from the request
         json_data = request.get_json()
-       
-        # Create the file path in the current directory
         file_path = r"output/submitted_data.json"
         
         # Write the JSON data to a file
@@ -156,8 +154,6 @@ def save_file():
             'error': str(e)
         }), 500
     
-# To give array to visualization
-
 @app.route('/capture', methods=['POST'])
 def capture():
     data = request.json
@@ -167,25 +163,21 @@ def capture():
 
     result_array = [button_text, parent_div, input_value]
 
-    # Store result_array in session
     session["result_array"] = result_array  
     session.modified = True
 
     print(f"Received Data: {result_array}")
 
-    # return jsonify({"message": "Data received successfully", "data": result_array})
-
 @app.route('/checkbox-data', methods=['POST'])
 def checkbox_data():
     data = request.get_json()
-    generate_value = data.get("generate", 0)  # Default to 0 if missing
+    generate_value = data.get("generate", 0) 
 
     global_store.global_data["checkbox"] = generate_value  
     print(f"Checkbox Value Received: {generate_value}")
-
-    # Process the value (you can use it in your model or save it)
     
     return jsonify({"message": "Checkbox value received", "value": generate_value})
+    
 
 def app_run():
     app.run(debug=False)

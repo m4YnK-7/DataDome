@@ -1,1 +1,1 @@
-from .input import app_run
+from .app import app_run

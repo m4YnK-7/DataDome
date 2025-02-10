@@ -1,6 +1,6 @@
+import os
 import pandas as pd
 from ydata_profiling import ProfileReport
-import os
 
 def profile_report(input_file_path):
     # Check if file exists and is not empty

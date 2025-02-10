@@ -1,9 +1,10 @@
-from sklearn.impute import KNNImputer
 import numpy as np
+import pandas as pd
+
 from sklearn.decomposition import PCA
 from sklearn.cluster import DBSCAN
 from sklearn.preprocessing import StandardScaler
-import pandas as pd
+from sklearn.impute import KNNImputer
 
 class DataImputer:
     def __init__(self, n_neighbors=7):

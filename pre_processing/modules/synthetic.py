@@ -2,16 +2,13 @@ import pandas as pd
 import numpy as np
 from sdv.single_table import CTGANSynthesizer
 from sdv.metadata import SingleTableMetadata
-from sklearn.preprocessing import LabelEncoder, MinMaxScaler
-import json
+from sklearn.preprocessing import LabelEncoder
+
 from .pre_processing_utils import convert_to_serializable, infer_column_type
 
+import json
 import warnings
 warnings.filterwarnings('ignore')
-
-import pandas as pd
-import numpy as np
-import re
 
 def generate_synthetic_data(df, output_dir = '.', synthetic_fraction=0.2):
     """
@@ -84,7 +81,6 @@ def generate_synthetic_data(df, output_dir = '.', synthetic_fraction=0.2):
     
     combined_data = pd.concat([df_encoded, synthetic_data], axis=0, ignore_index=True)
     
-
     # Initial report
     synthesis_report = {
         'original_shape': {
