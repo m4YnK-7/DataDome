@@ -1,7 +1,7 @@
 from flask import session
 import numpy as np
 import pandas as pd
-from matplotlib.pyplot import plt
+import matplotlib.pyplot as plt
 import seaborn as sns
 
 from sklearn.svm import SVR
