@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById("continue").addEventListener("click", function () {
-        window.location.href = "/next";
+        window.location.href = "/models";
     });
 
     document.getElementById("generateData").addEventListener("change", function() {

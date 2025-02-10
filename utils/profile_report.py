@@ -13,6 +13,5 @@ def profile_report(input_file_path):
         raise ValueError("Uploaded CSV has no data.")
 
     profile = ProfileReport(df, title="Pandas Profiling Report", minimal=True)
-    profile.to_file("profile_report.html")
+    profile.to_file(r"output\profile_report.html")
 
-    return "profile_report.html"

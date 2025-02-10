@@ -12,7 +12,7 @@ from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.svm import SVR
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.preprocessing import LabelEncoder
-import global_store
+from utils import global_store
 from pre_processing.main import main
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
@@ -42,7 +42,7 @@ def train_predict_regression(data_csv, model_name, target):
     df = pre_process_data(data_csv)
     df, scaler = transform(df, target_column=target, task="prediction")
 
-    df.to_csv(r"app\output\after_preprocess.csv")
+    df.to_csv(r"output\after_preprocess.csv")
     # Load data
     # data = pd.read_csv(data_csv))
     X = df.drop(columns=[target])
@@ -96,7 +96,7 @@ def train_predict_classification(data_csv, model_name, target):
     df = pre_process_data(data_csv)
     df, scaler = transform(df, target_column=target, task="classification")
 
-    df.to_csv(r"app\output\clean_user_data_test.csv")
+    df.to_csv(r"output\clean_user_data_test.csv")
     # Load data
     # data = pd.read_csv(data_csv))
     X = df.drop(columns=[target])

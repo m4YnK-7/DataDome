@@ -2,19 +2,19 @@ import os
 import json
 
 from flask import session
-from pre_processing.modules.data_loader import load_and_preprocess_dataset
-from pre_processing.modules.data_cleaner import DataCleaner
-from pre_processing.modules.data_imputer import DataImputer
-from pre_processing.modules.report_generator import ReportGenerator
-from pre_processing.modules.utils import convert_to_serializable
-from pre_processing.modules.transformation import transform
-from pre_processing.modules.synthetic import generate_synthetic_data
-from pre_processing.modules.rule_based_cleaning import rule_based_cleaning
+from .modules.data_loader import load_and_preprocess_dataset
+from .modules.data_cleaner import DataCleaner
+from .modules.data_imputer import DataImputer
+from .modules.report_generator import ReportGenerator
+from .modules.pre_processing_utils import convert_to_serializable
+from .modules.transformation import transform
+from .modules.synthetic import generate_synthetic_data
+from .modules.rule_based_cleaning import rule_based_cleaning
 
 import warnings 
 warnings.filterwarnings('ignore') 
 
-def main(file_path, output_dir='app\output', gen_syn_data=False, target=None, task=None):
+def main(file_path, output_dir = 'output', gen_syn_data=False, target=None, task=None):
 
     data_cleaner = DataCleaner()
     data_imputer = DataImputer()

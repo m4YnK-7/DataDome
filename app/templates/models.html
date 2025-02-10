@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ML Model Selection</title>
-    <link rel="stylesheet" href="static/next.css">
+    <title>Model Selection</title>
+    <link rel="stylesheet" href="static/css/models.css">
 </head>
 <body>
     <p>Select an ML Model</p>   
     <input type="text" id="userInput" placeholder="Enter Target Column">
     <div class="model-selection" id="model-selection">
         <div class="prediction">
-            <button class="mainbutton">Prediction Models</button>
+            <button class="mainbutton">Regression Models</button>
             <button class="model-btn" onclick="selectModel('linear_regression')">Linear Regression</button>
             <button class="model-btn" onclick="selectModel('random_forest')">Random Forest</button>
             <button class="model-btn" onclick="selectModel('svm')">SVM</button>
@@ -98,7 +98,7 @@
             
             // Create an image element
             let img = document.createElement("img");
-            img.src = "static/img.jpeg";  // Set image source
+            img.src = "static/metrics.jpeg";  // Set image source
             img.alt = "Dynamic Image";  // Alternative text
             img.id = "dynamicImage";  // Assign an ID to avoid duplication
             img.style.width = "100%";  // Optional: Set size

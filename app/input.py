@@ -1,16 +1,14 @@
 from flask import Flask, request, render_template, send_file, jsonify, session
-import os
 import pandas as pd
-from profile_report import profile_report
-from column import cat_c
+from utils.profile_report import profile_report
+from utils.categorize_columns import cat_c
 from ydata_profiling import ProfileReport
-from model import classification_standard, regression_standard, train_predict_regression,visualize_results,train_predict_classification
+from pre_processing.models import classification_standard, regression_standard, train_predict_regression,visualize_results,train_predict_classification
 import requests
 import json
 from flask_cors import CORS
-import global_store
-
-
+import utils.global_store as global_store
+import os
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS to allow frontend request
@@ -38,31 +36,31 @@ def upload_file():
     file_path = os.path.join(app.config["UPLOAD_FOLDER"], "user_data.csv")
     file.save(file_path)
 
-    return render_template("tempindex.html")
+    return render_template("profile.html")
 
 @app.route("/generate", methods=["POST"])
 def generateFile():
     profile_report("app/uploads/user_data.csv")
-    return send_file("..//profile_report.html", as_attachment=False)
+    return send_file(r"..\output\profile_report.html", as_attachment=False)
 
-@app.route("/columns")
-def columns():
+@app.route("/attribute_cleaning")
+def attribute_cleaning():
     df = pd.read_csv("app/uploads/user_data.csv")
 
     categorized = cat_c(df)
     categorical_data = {}
     for col in categorized["categorical"]:
         categorical_data[col] = df[col].dropna().unique().tolist()
-    return render_template("column.html", 
+    return render_template("attribute_cleaning.html", 
                            columns = categorical_data,
                            numeric=categorized["numeric"], 
                            categorical=categorized["categorical"], 
                            datetime=categorized["datetime"], 
                            categorical_data=categorical_data)
 
-@app.route("/next")
-def next():
-    return render_template("next.html")
+@app.route("/models")
+def models():
+    return render_template("models.html")
 
 #___________________________________________________________________________________________________________________________________
 @app.route("/run_model", methods=["POST"])
@@ -100,7 +98,7 @@ def run_model():
         pros_results= results,
         pros_test=y_test,
         pros_pred=y_test_pred,
-        save_path= r"app\static\img.jpeg"
+        save_path= r"app\static\metrics.jpeg"
     )
 
 
@@ -142,7 +140,7 @@ def save_file():
         json_data = request.get_json()
        
         # Create the file path in the current directory
-        file_path = r"app/uploads/submitted_data.json"
+        file_path = r"output/submitted_data.json"
         
         # Write the JSON data to a file
         with open(file_path, 'w') as f:
@@ -175,7 +173,7 @@ def capture():
 
     print(f"Received Data: {result_array}")
 
-    return jsonify({"message": "Data received successfully", "data": result_array})
+    # return jsonify({"message": "Data received successfully", "data": result_array})
 
 @app.route('/checkbox-data', methods=['POST'])
 def checkbox_data():
@@ -189,7 +187,9 @@ def checkbox_data():
     
     return jsonify({"message": "Checkbox value received", "value": generate_value})
 
-    
+def app_run():
+    app.run(debug=False)
+
 if __name__ == "__main__":
     app.run(debug=False)
 

@@ -5,7 +5,7 @@ import pandas as pd
 from sklearn.impute import KNNImputer
 from sklearn.preprocessing import StandardScaler
 from scipy.stats import skew
-from pre_processing.modules.utils import infer_column_type
+from pre_processing.modules.pre_processing_utils import infer_column_type
 
 
 class DataCleaner:

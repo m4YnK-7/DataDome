@@ -1,12 +1,2 @@
-*.exe
-*tempCodeRunnerFile.*
-*.vscode/
-*__pycache__
-*.png
-*.csv
-*profile_report.html
-*.log
-*.DS_Store
-*profiling_report.json
-*.json
-*.img
+*.vscode*
+*__pycache__*

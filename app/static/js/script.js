@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Continue Button
     continueButton.addEventListener("click", function () {
-        window.location.href = "/columns";
+        window.location.href = "/attribute_cleaning";
     });
 
     // Browse Button

@@ -4,7 +4,7 @@ from sdv.single_table import CTGANSynthesizer
 from sdv.metadata import SingleTableMetadata
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 import json
-from .utils import convert_to_serializable, infer_column_type
+from .pre_processing_utils import convert_to_serializable, infer_column_type
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -144,7 +144,7 @@ def generate_synthetic_data(df, output_dir = '.', synthetic_fraction=0.2):
     with open(jpath, 'w') as f:
         json.dump(report, f, indent=4, default=convert_to_serializable)
 
-    combined_data.to_csv(r"app\output\synthetic.csv")
+    combined_data.to_csv(r"output\synthetic.csv")
     
     return combined_data
 

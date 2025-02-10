@@ -13,6 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Redirect to columns page when "Continue" is clicked
     continueButton.addEventListener("click", function () {
-        window.location.href = "/columns";
+        window.location.href = "/attribute_cleaning";
     });
 });
