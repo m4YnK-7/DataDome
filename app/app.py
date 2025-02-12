@@ -168,6 +168,8 @@ def capture():
 
     print(f"Received Data: {result_array}")
 
+    return jsonify(result_array)
+
 @app.route('/checkbox-data', methods=['POST'])
 def checkbox_data():
     data = request.get_json()
